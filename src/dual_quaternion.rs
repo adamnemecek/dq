@@ -34,7 +34,8 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     pub fn translation(self) -> Vector3<N> {
-       (self.du * self.re.conjugate()).double().imag()
+        let two = N::from_f64(2.0f64).unwrap();
+       ((self.du * self.re.conjugate()) * two).imag()
     }
 }
 
@@ -73,9 +74,9 @@ impl<N: Real> Default for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> Signed {
+// impl<N: Real> Signed {
     
-}
+// }
 
     // /// homogenous coordinates
     // /// 
