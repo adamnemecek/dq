@@ -29,71 +29,6 @@ impl<N: Real> DualQuaternion<N> {
     pub fn translation(self) -> Vector3<N> {
         (self.du * self.re.conjugate()).squared().imag()
     }
-}
-
-impl<N: Real> From<N> for DualQuaternion<N> {
-    #[inline]
-    fn from(v: N) -> Self {
-        Self::new(Quaternion::from_real(v), 
-                  Quaternion::zero())
-    }
-}
-
-impl<N: Real> From<Quaternion<N>> for DualQuaternion<N> {
-    #[inline]
-    fn from(re: Quaternion<N>) -> Self {
-        Self::new(re, Quaternion::zero())
-    }
-}
-
-impl<N: Real> Zero for DualQuaternion<N> {
-    #[inline]
-    fn zero() -> Self {
-        Self::new(Quaternion::zero(), Quaternion::zero())
-    }
-
-    #[inline]
-    fn is_zero(&self) -> bool {
-        self.re.is_zero() && self.du.is_zero()
-    }
-}
-
-impl<N: Real> One for DualQuaternion<N> {
-    #[inline]
-    fn one() -> Self {
-       Self::new(Quaternion::one(), Quaternion::zero())
-   }
-}
-
-impl<N: Real> Default for DualQuaternion<N> {
-    #[inline]
-    fn default() -> Self {
-        Self::zero()
-    }
-}
-
-// impl<N: Real> Signed {
-    
-// }
-
-    // /// homogenous coordinates
-    // /// 
-    // fn homo() {
-        
-    // }
-
-
-
-impl<N: Real> Inv for DualQuaternion<N> {
-    type Output = Self;
-
-    #[inline]
-    fn inv(self) -> Self::Output {
-       self.conjugate() / self.magnitude().abs()
-   }
-}
-
-impl<N: Real> DualQuaternion<N> {
 
     /// needs attention
     #[inline]
@@ -162,6 +97,68 @@ impl<N: Real> DualQuaternion<N> {
     }
 }
 
+impl<N: Real> From<N> for DualQuaternion<N> {
+    #[inline]
+    fn from(v: N) -> Self {
+        Self::new(Quaternion::from_real(v),
+                  Quaternion::zero())
+    }
+}
+
+impl<N: Real> From<Quaternion<N>> for DualQuaternion<N> {
+    #[inline]
+    fn from(re: Quaternion<N>) -> Self {
+        Self::new(re, Quaternion::zero())
+    }
+}
+
+impl<N: Real> Zero for DualQuaternion<N> {
+    #[inline]
+    fn zero() -> Self {
+        Self::new(Quaternion::zero(), Quaternion::zero())
+    }
+
+    #[inline]
+    fn is_zero(&self) -> bool {
+        self.re.is_zero() && self.du.is_zero()
+    }
+}
+
+impl<N: Real> One for DualQuaternion<N> {
+    #[inline]
+    fn one() -> Self {
+        Self::new(Quaternion::one(), Quaternion::zero())
+    }
+}
+
+impl<N: Real> Default for DualQuaternion<N> {
+    #[inline]
+    fn default() -> Self {
+        Self::zero()
+    }
+}
+
+// impl<N: Real> Signed {
+
+// }
+
+    // /// homogenous coordinates
+    // /// 
+    // fn homo() {
+        
+    // }
+
+
+
+impl<N: Real> Inv for DualQuaternion<N> {
+    type Output = Self;
+
+    #[inline]
+    fn inv(self) -> Self::Output {
+        self.conjugate() / self.magnitude().abs()
+    }
+}
+
 impl<N: Real> PartialEq for DualQuaternion<N> {
     fn eq(&self, other: &Self) -> bool {
         self.re == other.re && self.du == other.du
@@ -217,7 +214,7 @@ impl<N: Real> Div<Self> for DualQuaternion<N> {
     type Output = Self;
     fn div(self, other: Self) -> Self {
         Self::new(self.re * other.re.inv().unwrap(),
-                (self.du * other.re - self.re * other.du) * (other.re * other.re).inv().unwrap())
+                 (self.du * other.re - self.re * other.du) * (other.re * other.re).inv().unwrap())
     }
 }
 
@@ -306,7 +303,8 @@ impl<N: Real> DualQuaternion<N> {
 //    }
 
     #[inline]
-    fn hypot(self, other: Self) -> Self {
+    pub fn hypot(self, other: Self) -> Self {
+        // self.to_homogeneous();
     //    self.re.powf(n: N)
            unimplemented!()
     //    let real = self.re.hypot(other.re);
@@ -321,39 +319,35 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn asin(self) -> Self {
         let one = Quaternion::<N>::one();
-        unimplemented!()
-        // Self::new(self.re.asin(), self.du.left_div(one - self.re.squared()).sqrt())
+        Self::new(self.re.asin(), self.du.right_div(&(one - self.re.squared())).unwrap().sqrt())
     }
 
     #[inline]
     pub fn cos(self) -> Self {
         Self::new(self.re.cos(), self.du.neg() * self.re.sin())
-   }
+    }
 
-   #[inline]
-   pub fn acos(self) -> Self {
+    #[inline]
+    pub fn acos(self) -> Self {
         // let one = Quaternion::<N>::one();
         // Self::new(self.re.asin(), div(self.du, (one - self.re.squared()).sqrt()))
 
-       unimplemented!()
-    //    Self::new(self.re.acos(), self.du.neg() / (N::one() - self.re.powf(2)).sqrt())
-   }
-
-   #[inline]
-   pub fn tan(self) -> Self {
-       let one = Quaternion::<N>::one();
-       let t = self.re.tan();
-       Self::new(t, self.du * (t * t + one))
-   }
-
-   #[inline]
-   pub fn atan(self) -> Self {
-    //    unimplemented!()
-        let one = Quaternion::<N>::one();
-        let r = self.re.squared();
-    //    Self::new(self.re.atan(), self.du / (self.re.powf(two) + one).sqrt())
         unimplemented!()
-   }
+    //    Self::new(self.re.acos(), self.du.neg() / (N::one() - self.re.squared()).sqrt())
+    }
+
+    #[inline]
+    pub fn tan(self) -> Self {
+        let one = Quaternion::<N>::one();
+        let t = self.re.tan();
+        Self::new(t, self.du * (t * t + one))
+    }
+
+    #[inline]
+    pub fn atan(self) -> Self {
+        let one = Quaternion::<N>::one();
+        Self::new(self.re.atan(), self.du.right_div(&(self.re.squared() + one)).unwrap().sqrt())
+    }
 
 //    #[inline]
 //    pub fn atan2(self, other: Self) -> Self {
@@ -363,7 +357,7 @@ impl<N: Real> DualQuaternion<N> {
 //         )
 //     //    Self::new(
 //         //    self.re.atan2(other.re),
-//         //    (other.re * self.du - self.re * other.du) / (self.re.powf(2) + other.re.powf(2)),
+//         //    (other.re * self.du - self.re * other.du) / (self.re.squared() + other.re.squared()),
 //     //    )
 //    }
 
@@ -387,46 +381,46 @@ impl<N: Real> DualQuaternion<N> {
 //        Self::new(self.re.ln_1p(), self.du / (self.re + N::one()))
 //    }
 
-   #[inline]
-   pub fn sinh(self) -> Self {
-       Self::new(self.re.sinh(), self.du * self.re.cosh())
-   }
+    #[inline]
+    pub fn sinh(self) -> Self {
+        Self::new(self.re.sinh(), self.du * self.re.cosh())
+    }
 
-   #[inline]
-   fn asinh(self) -> Self {
-       let one = Quaternion::<N>::one();
-       unimplemented!()
+    #[inline]
+    fn asinh(self) -> Self {
+        let one = Quaternion::<N>::one();
+        unimplemented!()
     //    Self::new(self.re.asinh(), self.du.left_div(&(self.re.squared() + one)).unwrap().sqrt())
-   }
+    }
 
-   #[inline]
-   pub fn cosh(self) -> Self {
-       Self::new(self.re.cosh(), self.du * self.re.sinh())
-   }
+    #[inline]
+    pub fn cosh(self) -> Self {
+        Self::new(self.re.cosh(), self.du * self.re.sinh())
+    }
 
-   #[inline]
-   pub fn tanh(self) -> Self {
+    #[inline]
+    pub fn tanh(self) -> Self {
         let real = self.re.tanh();
         let one = Quaternion::<N>::one();
         Self::new(real, self.du * (one - real.squared()))
-   }
+    }
 
-   #[inline]
-   pub fn acosh(self) -> Self {
-       let one = Quaternion::<N>::one();
-       unimplemented!()
+    #[inline]
+    pub fn acosh(self) -> Self {
+        let one = Quaternion::<N>::one();
+        unimplemented!()
     //    Self::new(
     //        self.re.acosh(),
     //        self.du.left_div(&((self.re + one.sqrt() * (self.re - one).sqrt())))
     //    )
-   }
+    }
 
-   #[inline]
-   pub fn atanh(self) -> Self {
-       let one: Quaternion<N> = Quaternion::one();
-       unimplemented!()
+    #[inline]
+    pub fn atanh(self) -> Self {
+        let one: Quaternion<N> = Quaternion::one();
+        unimplemented!()
     //    Self::new(self.re.atanh(), div(self.du, (one - self.re.squared())))
-   }
+    }
 }
 
 // impl<N: Real> Signed for DualQuaternion<N> {
