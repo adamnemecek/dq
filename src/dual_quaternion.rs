@@ -321,7 +321,8 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn asin(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.asin(), left_div(self.du, (one - self.re.squared()).sqrt()))
+        unimplemented!()
+        // Self::new(self.re.asin(), self.du.left_div(one - self.re.squared()).sqrt())
     }
 
     #[inline]
@@ -394,7 +395,8 @@ impl<N: Real> DualQuaternion<N> {
    #[inline]
    fn asinh(self) -> Self {
        let one = Quaternion::<N>::one();
-       Self::new(self.re.asinh(), self.du.left_div(&(self.re.squared() + one)).unwrap().sqrt())
+       unimplemented!()
+    //    Self::new(self.re.asinh(), self.du.left_div(&(self.re.squared() + one)).unwrap().sqrt())
    }
 
    #[inline]
@@ -422,7 +424,8 @@ impl<N: Real> DualQuaternion<N> {
    #[inline]
    pub fn atanh(self) -> Self {
        let one: Quaternion<N> = Quaternion::one();
-       Self::new(self.re.atanh(), div(self.du, (one - self.re.squared())))
+       unimplemented!()
+    //    Self::new(self.re.atanh(), div(self.du, (one - self.re.squared())))
    }
 }
 
