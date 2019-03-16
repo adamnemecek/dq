@@ -131,7 +131,7 @@ impl<N: Real> DualQuaternion<N> {
 //    }
 
    pub fn ln(self) -> Self {
-       Self::new(self.re.ln(), self.du * self.re.try_inverse().unwrap())
+       Self::new(self.re.ln(), self.du * self.re.inv().unwrap())
    }
 
    pub fn log(self, base: Self) -> Self {
@@ -208,8 +208,8 @@ impl<N: Real> MulAssign for DualQuaternion<N> {
 impl<N: Real> Div<Self> for DualQuaternion<N> {
    type Output = Self;
    fn div(self, other: Self) -> Self {
-       Self::new(self.re * other.re.try_inverse().unwrap(),
-                (self.du * other.re - self.re * other.du) * (other.re * other.re).try_inverse().unwrap())
+       Self::new(self.re * other.re.inv().unwrap(),
+                (self.du * other.re - self.re * other.du) * (other.re * other.re).inv().unwrap())
    }
 }
 
@@ -332,9 +332,9 @@ impl<N: Real> DualQuaternion<N> {
 
    #[inline]
    pub fn tan(self) -> Self {
+       let one = Quaternion::<N>::one();
        let t = self.re.tan();
-        unimplemented!()
-    //    Self::new(t, self.du * (t * t + N::one()))
+       Self::new(t, self.du * (t * t + one))
    }
 
    #[inline]
