@@ -7,7 +7,6 @@ use nalgebra::{Quaternion, Real, Vector3};
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,Neg};
 use std::cmp::Ordering;
 
-
 #[repr(C)]
 #[derive(Copy, Clone, Debug)]
 pub struct DualQuaternion<N: Real> {
@@ -26,12 +25,14 @@ impl<N: Real> DualQuaternion<N> {
        self.re
     }
 
+    #[inline]
     pub fn translation(self) -> Vector3<N> {
         (self.du * self.re.conjugate()).squared().imag()
     }
 }
 
 impl<N: Real> From<N> for DualQuaternion<N> {
+    #[inline]
     fn from(v: N) -> Self {
         Self::new(Quaternion::from_real(v), 
                   Quaternion::zero())
@@ -39,28 +40,33 @@ impl<N: Real> From<N> for DualQuaternion<N> {
 }
 
 impl<N: Real> From<Quaternion<N>> for DualQuaternion<N> {
+    #[inline]
     fn from(re: Quaternion<N>) -> Self {
         Self::new(re, Quaternion::zero())
     }
 }
 
 impl<N: Real> Zero for DualQuaternion<N> {
-   fn zero() -> Self {
-       Self::new(Quaternion::zero(), Quaternion::zero())
-   }
+    #[inline]
+    fn zero() -> Self {
+        Self::new(Quaternion::zero(), Quaternion::zero())
+    }
 
-   fn is_zero(&self) -> bool {
-       self.re.is_zero() && self.du.is_zero()
-   }
+    #[inline]
+    fn is_zero(&self) -> bool {
+        self.re.is_zero() && self.du.is_zero()
+    }
 }
 
 impl<N: Real> One for DualQuaternion<N> {
+    #[inline]
     fn one() -> Self {
        Self::new(Quaternion::one(), Quaternion::zero())
    }
 }
 
 impl<N: Real> Default for DualQuaternion<N> {
+    #[inline]
     fn default() -> Self {
         Self::zero()
     }
@@ -81,6 +87,7 @@ impl<N: Real> Default for DualQuaternion<N> {
 impl<N: Real> Inv for DualQuaternion<N> {
     type Output = Self;
 
+    #[inline]
     fn inv(self) -> Self::Output {
        self.conjugate() / self.magnitude().abs()
    }
@@ -89,47 +96,55 @@ impl<N: Real> Inv for DualQuaternion<N> {
 impl<N: Real> DualQuaternion<N> {
 
     /// needs attention
-   pub fn conjugate(self) -> Self {
-       Self::new(self.re.conjugate(), self.du.conjugate())
-   }
+    #[inline]
+    pub fn conjugate(self) -> Self {
+        Self::new(self.re.conjugate(), self.du.conjugate())
+    }
 
-   pub fn magnitude(&self) -> N {
-       self.re.dot(&self.du)
-   }
+    #[inline]
+    pub fn magnitude(&self) -> N {
+        self.re.dot(&self.du)
+    }
 
-   pub fn dot(&self, other: &Self) -> N {
-       self.re.dot(&other.re)
-   }
+    #[inline]
+    pub fn dot(&self, other: &Self) -> N {
+        self.re.dot(&other.re)
+    }
 
-   pub fn normalize(&self) -> Self {
-       *self / self.magnitude().abs()
-   }
+    #[inline]
+    pub fn normalize(&self) -> Self {
+        *self / self.magnitude().abs()
+    }
 
-   pub fn exp(self) -> Self {
-       let r = self.re.exp();
-       /// what about the order?
-       Self::new(r, r * self.du)
-   }
+    #[inline]
+    pub fn exp(self) -> Self {
+        let r = self.re.exp();
+        /// what about the order?
+        Self::new(r, r * self.du)
+    }
 
-   pub fn pow(self, t: N) -> Self {
-       (self.ln() * t).exp()
-   }
+    #[inline]
+    pub fn pow(self, t: N) -> Self {
+        (self.ln() * t).exp()
+    }
 
-   pub fn squared(self) -> Self {
-       self * self
-   }
+    #[inline]
+    pub fn squared(self) -> Self {
+        self * self
+    }
 
 //    pub fn scale(self) -> N {
 //        N::from_f64(1.0f64) / self.re.magnitude()
 //    }
 
-   pub fn ln(self) -> Self {
-       Self::new(self.re.ln(), self.du * self.re.inv().unwrap())
-   }
+    #[inline]
+    pub fn ln(self) -> Self {
+        Self::new(self.re.ln(), self.du * self.re.inv().unwrap())
+    }
 
-   pub fn log(self, base: Self) -> Self {
-       self.ln() / base.ln()
-   }
+    pub fn log(self, base: Self) -> Self {
+        self.ln() / base.ln()
+    }
 
 //    pub fn sqft(self) -> Self {
 //        (self.ln().half().exp()
@@ -142,81 +157,81 @@ impl<N: Real> DualQuaternion<N> {
 //    }
 
 
-   pub fn slerp(self, other: Self, t: N) -> Self {
-       (other * self.conjugate()).pow(t) * self
-   }
+    pub fn slerp(self, other: Self, t: N) -> Self {
+        (other * self.conjugate()).pow(t) * self
+    }
 }
 
 impl<N: Real> PartialEq for DualQuaternion<N> {
-   fn eq(&self, other: &Self) -> bool {
-       self.re == other.re && self.du == other.du
-   }
+    fn eq(&self, other: &Self) -> bool {
+        self.re == other.re && self.du == other.du
+    }
 }
 
 impl<N: Real> PartialOrd for DualQuaternion<N> {
-   fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-       unimplemented!()
-   }
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        unimplemented!()
+    }
 }
 
 impl<N: Real> Add for DualQuaternion<N> {
-   type Output = Self;
-   fn add(self, other: Self) -> Self {
-       Self::new(self.re + other.re, self.du + other.du)
-   }
+    type Output = Self;
+    fn add(self, other: Self) -> Self {
+        Self::new(self.re + other.re, self.du + other.du)
+    }
 }
 impl<N: Real> AddAssign for DualQuaternion<N> {
-   fn add_assign(&mut self, other: Self) {
-       *self = *self + other;
-   }
+    fn add_assign(&mut self, other: Self) {
+        *self = *self + other;
+    }
 }
 
 impl<N: Real> Sub for DualQuaternion<N> {
-   type Output = Self;
-   fn sub(self, other: Self) -> Self {
-       Self::new(self.re - other.re, self.du - other.du)
-   }
+    type Output = Self;
+    fn sub(self, other: Self) -> Self {
+        Self::new(self.re - other.re, self.du - other.du)
+    }
 }
 
 impl<N: Real> SubAssign for DualQuaternion<N> {
-   fn sub_assign(&mut self, other: Self) {
-       *self = *self - other;
-   }
+    fn sub_assign(&mut self, other: Self) {
+        *self = *self - other;
+    }
 }
 
 impl<N: Real> Mul for DualQuaternion<N> {
-   type Output = Self;
-   fn mul(self, other: Self) -> Self {
-       Self::new(self.re * other.re, 
-                 self.re * other.du + self.du * other.re)
-   }
+    type Output = Self;
+    fn mul(self, other: Self) -> Self {
+        Self::new(self.re * other.re, 
+                  self.re * other.du + self.du * other.re)
+    }
 }
 
 impl<N: Real> MulAssign for DualQuaternion<N> {
-   fn mul_assign(&mut self, other: Self) {
-       *self = *self * other;
-   }
+    fn mul_assign(&mut self, other: Self) {
+        *self = *self * other;
+    }
 }
 
 impl<N: Real> Div<Self> for DualQuaternion<N> {
-   type Output = Self;
-   fn div(self, other: Self) -> Self {
-       Self::new(self.re * other.re.inv().unwrap(),
+    type Output = Self;
+    fn div(self, other: Self) -> Self {
+        Self::new(self.re * other.re.inv().unwrap(),
                 (self.du * other.re - self.re * other.du) * (other.re * other.re).inv().unwrap())
-   }
+    }
 }
 
 impl<N: Real> DivAssign for DualQuaternion<N> {
-   fn div_assign(&mut self, other: Self) {
-       *self = *self / other
-   }
+    fn div_assign(&mut self, other: Self) {
+        *self = *self / other
+    }
 }
 
 impl<N: Real> Neg for DualQuaternion<N> {
-   type Output = Self;
-   fn neg(self) -> Self {
-       Self::new(self.re.neg(), self.du.neg())
-   }
+    type Output = Self;
+    fn neg(self) -> Self {
+        Self::new(self.re.neg(), self.du.neg())
+    }
 }
 
 ///
@@ -224,55 +239,55 @@ impl<N: Real> Neg for DualQuaternion<N> {
 ///
 
 impl<N: Real> Add<N> for DualQuaternion<N> {
-   type Output = Self;
-   fn add(self, other: N) -> Self {
-       self + Self::from(other)
-   }
+    type Output = Self;
+    fn add(self, other: N) -> Self {
+        self + Self::from(other)
+    }
 }
 
 impl<N: Real> AddAssign<N> for DualQuaternion<N> {
-   fn add_assign(&mut self, other: N) {
-       *self = *self + other
-   }
+    fn add_assign(&mut self, other: N) {
+        *self = *self + other
+    }
 }
 
 impl<N: Real> Sub<N> for DualQuaternion<N> {
    type Output = Self;
-   fn sub(self, other: N) -> Self {
-       self - Self::from(other)
-   }
+    fn sub(self, other: N) -> Self {
+        self - Self::from(other)
+    }
 }
 
 impl<N: Real> SubAssign<N> for DualQuaternion<N> {
-   fn sub_assign(&mut self, other: N) {
-       *self = *self - other
-   }
+    fn sub_assign(&mut self, other: N) {
+        *self = *self - other
+    }
 }
 
 impl<N: Real> Mul<N> for DualQuaternion<N> {
-   type Output = Self;
-   fn mul(self, other: N) -> Self {
-       self * Self::from(other)
-   }
+    type Output = Self;
+    fn mul(self, other: N) -> Self {
+        self * Self::from(other)
+    }
 }
 
 impl<N: Real> MulAssign<N> for DualQuaternion<N> {
-   fn mul_assign(&mut self, other: N) {
-       *self = *self * other
-   }
+    fn mul_assign(&mut self, other: N) {
+        *self = *self * other
+    }
 }
 
 impl<N: Real> Div<N> for DualQuaternion<N> {
-   type Output = Self;
-   fn div(self, other: N) -> Self {
-       self / Self::from(other)
-   }
+    type Output = Self;
+    fn div(self, other: N) -> Self {
+        self / Self::from(other)
+    }
 }
 
 impl<N: Real> DivAssign<N> for DualQuaternion<N> {
-   fn div_assign(&mut self, other: N) {
-       *self = *self / other
-   }
+    fn div_assign(&mut self, other: N) {
+        *self = *self / other
+    }
 }
 
 impl<N: Real> DualQuaternion<N> {
@@ -290,27 +305,27 @@ impl<N: Real> DualQuaternion<N> {
 //        Self::new(real, self.du / (N::from(3).unwrap() * real))
 //    }
 
-   #[inline]
-   fn hypot(self, other: Self) -> Self {
+    #[inline]
+    fn hypot(self, other: Self) -> Self {
     //    self.re.powf(n: N)
-       unimplemented!()
+           unimplemented!()
     //    let real = self.re.hypot(other.re);
     //    Self::new(real, (self.re * other.du + other.re * self.du) / real)
-   }
+    }
 
-   #[inline]
-   pub fn sin(self) -> Self {
-       Self::new(self.re.sin(), self.du * self.re.cos())
-   }
+    #[inline]
+    pub fn sin(self) -> Self {
+        Self::new(self.re.sin(), self.du * self.re.cos())
+    }
 
-   #[inline]
-   pub fn asin(self) -> Self {
+    #[inline]
+    pub fn asin(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.asin(), div(self.du, (one - self.re.squared()).sqrt()))
-   }
+        Self::new(self.re.asin(), left_div(self.du, (one - self.re.squared()).sqrt()))
+    }
 
-   #[inline]
-   pub fn cos(self) -> Self {
+    #[inline]
+    pub fn cos(self) -> Self {
         Self::new(self.re.cos(), self.du.neg() * self.re.sin())
    }
 
