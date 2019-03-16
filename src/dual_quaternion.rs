@@ -10,8 +10,8 @@ use std::cmp::Ordering;
 #[repr(C)]
 #[derive(Copy, Clone, Debug)]
 pub struct DualQuaternion<N: Real> {
-   re: Quaternion<N>,
-   du: Quaternion<N>,
+   pub re: Quaternion<N>,
+   pub du: Quaternion<N>,
 }
 
 impl<N: Real> DualQuaternion<N> {
