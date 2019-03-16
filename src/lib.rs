@@ -3,6 +3,7 @@
 // use nalgebra::Quaternion;
 
 pub mod dual_quaternion;
+pub mod screw;
 
 // pub use dual_quaternion::*;
 
