@@ -36,6 +36,11 @@ impl<N: Real> DualQuaternion<N> {
         Self::new(self.re.conjugate(), self.du.conjugate())
     }
 
+    ///
+    pub fn conjugate2(&self) -> Self {
+        unimplemented!()
+    }
+
     #[inline]
     pub fn magnitude(&self) -> N {
         self.re.dot(&self.du)
