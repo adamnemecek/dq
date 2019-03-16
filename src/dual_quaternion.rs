@@ -7,13 +7,6 @@ use nalgebra::{Quaternion, Real, Vector3};
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,Neg};
 use std::cmp::Ordering;
 
-// use std::fmt;
-
-// use crate::ext::QuaternionExt;
-
-fn div<N: Real>(a: Quaternion<N>, b: Quaternion<N>) -> Quaternion<N> {
-    unimplemented!()
-}
 
 #[repr(C)]
 #[derive(Copy, Clone, Debug)]
@@ -407,7 +400,7 @@ impl<N: Real> DualQuaternion<N> {
        unimplemented!()
     //    Self::new(
     //        self.re.acosh(),
-    //        self.du / ((self.re + one.sqrt() * (self.re - one).sqrt())
+    //        self.du.left_div(&((self.re + one.sqrt() * (self.re - one).sqrt())))
     //    )
    }
 
