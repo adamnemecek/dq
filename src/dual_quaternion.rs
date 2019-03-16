@@ -40,7 +40,7 @@ impl<N: Real> DualQuaternion<N> {
 
 impl<N: Real> From<N> for DualQuaternion<N> {
     fn from(v: N) -> Self {
-        Self::new(Quaternion::from_parts(v, Vector3::zero()), 
+        Self::new(Quaternion::from_real(v), 
                   Quaternion::zero())
     }
 }
