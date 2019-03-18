@@ -463,8 +463,7 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn atanh(self) -> Self {
         let one: Quaternion<N> = Quaternion::one();
-        unimplemented!()
-    //    Self::new(self.re.atanh(), div(self.du, (one - self.re.squared())))
+        Self::new(self.re.atanh(), self.du.right_div(&(one - self.re.squared())).unwrap())
     }
 }
 
