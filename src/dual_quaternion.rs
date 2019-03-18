@@ -95,10 +95,9 @@ impl<N: Real> DualQuaternion<N> {
         self.ln() / base.ln()
     }
 
-//    pub fn sqft(self) -> Self {
-//        (self.ln().half().exp()
-//     //    unimplemented!()
-//    }
+    // pub fn sqrt(self) -> Self {
+    //     (self.ln().half().exp()
+    // }
 
 
 //    pub fn lerp(self, other: Self, t: T) -> Self {
@@ -198,7 +197,7 @@ impl<N: Real> Inv for DualQuaternion<N> {
 
 impl<N: Real> PartialEq for DualQuaternion<N> {
     fn eq(&self, other: &Self) -> bool {
-        self.re == other.re && self.du == other.du
+        self.re.eq(&other.re) && self.du.eq(&other.du)
     }
 }
 
