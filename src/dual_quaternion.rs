@@ -440,7 +440,7 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn asinh(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.asinh(), self.du.right_div(&(self.re.squared() + one)).unwrap().sqrt())
+        Self::new(self.re.asinh(), self.du.right_div(&(self.re.squared() + one).sqrt()).unwrap())
     }
 
     /// Hyperbolic cosinus.
