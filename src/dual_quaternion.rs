@@ -1,10 +1,12 @@
 extern crate nalgebra;
 extern crate num_traits;
 
-pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
-use nalgebra::{Quaternion, Real, Vector3};
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,Neg};
 use std::cmp::Ordering;
+
+pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
+use nalgebra::{Quaternion, Real, Vector3};
+
 use crate::screw::Screw;
 
 #[repr(C)]
