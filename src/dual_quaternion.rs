@@ -1,5 +1,6 @@
 extern crate nalgebra;
 extern crate num_traits;
+extern crate approx;
 
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,Neg};
 use std::cmp::Ordering;
@@ -8,6 +9,8 @@ pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
 use nalgebra::{Quaternion, Real, Vector3};
 
 use crate::screw::Screw;
+
+use approx::{RelativeEq, AbsDiffEq};
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -200,6 +203,46 @@ impl<N: Real> Inv for DualQuaternion<N> {
 impl<N: Real> PartialEq for DualQuaternion<N> {
     fn eq(&self, other: &Self) -> bool {
         self.re.eq(&other.re) && self.du.eq(&other.du)
+    }
+}
+
+impl<N: Real + AbsDiffEq<Epsilon = N>> AbsDiffEq for DualQuaternion<N> {
+    type Epsilon = N;
+
+    #[inline]
+    fn default_epsilon() -> Self::Epsilon {
+        // N::default_epsilon()
+        unimplemented!()
+    }
+
+    #[inline]
+    fn abs_diff_eq(&self, other: &Self, epsilon: Self::Epsilon) -> bool {
+        // self.as_vector().abs_diff_eq(other.as_vector(), epsilon) ||
+        // Account for the double-covering of S², i.e. q = -q
+        // self.as_vector().iter().zip(other.as_vector().iter()).all(|(a, b)| a.abs_diff_eq(&-*b, epsilon))
+        unimplemented!()
+    }
+}
+
+impl<N: Real + RelativeEq<Epsilon = N>> RelativeEq for DualQuaternion<N> {
+    #[inline]
+    fn default_max_relative() -> Self::Epsilon {
+        // N::default_max_relative()
+        unimplemented!()
+    }
+
+    #[inline]
+    fn relative_eq(
+        &self,
+        other: &Self,
+        epsilon: Self::Epsilon,
+        max_relative: Self::Epsilon,
+    ) -> bool
+    {
+        // self.as_vector().relative_eq(other.as_vector(), epsilon, max_relative) ||
+        // Account for the double-covering of S², i.e. q = -q
+        // self.as_vector().iter().zip(other.as_vector().iter()).all(|(a, b)| a.relative_eq(&-*b, epsilon, max_relative))
+        unimplemented!()
     }
 }
 
