@@ -70,13 +70,6 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     #[inline]
-    pub fn exp(self) -> Self {
-        let r = self.re.exp();
-        /// what about the order?
-        Self::new(r, self.du * r)
-    }
-
-    #[inline]
     pub fn squared(self) -> Self {
         self * self
     }
@@ -84,6 +77,13 @@ impl<N: Real> DualQuaternion<N> {
 //    pub fn scale(self) -> N {
 //        N::from_f64(1.0f64) / self.re.magnitude()
 //    }
+
+    #[inline]
+    pub fn exp(self) -> Self {
+        let r = self.re.exp();
+        /// what about the order?
+        Self::new(r, r * self.du)
+    }
 
     #[inline]
     pub fn ln(self) -> Self {
@@ -192,7 +192,7 @@ impl<N: Real> Inv for DualQuaternion<N> {
 
     #[inline]
     fn inv(self) -> Self::Output {
-        self.conjugate() / self.magnitude().abs()
+        self.conjugate() / self.magnitude()
     }
 }
 
@@ -389,7 +389,7 @@ impl<N: Real> DualQuaternion<N> {
         Self::new(self.re.acos(), (-self.du).right_div(&(one - self.re.squared()).sqrt()).unwrap())
     }
 
-    /// Tangent
+    /// Tangent.
     /// tan(u, u') = (tan(u), u' * (tan(u)^2 + 1))
     #[inline]
     pub fn tan(self) -> Self {
@@ -403,7 +403,7 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn atan(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.atan(), self.du.right_div(&(self.re.squared() + one)).unwrap().sqrt())
+        Self::new(self.re.atan(), self.du.right_div(&(self.re.squared() + one).sqrt()).unwrap())
     }
 
 //    #[inline]
