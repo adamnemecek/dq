@@ -60,8 +60,9 @@ fn test_exp() {
 }
 
 fn test_qxp() {
-    // let q = dq().re.exp().l;
-    // println!("{:?}", q);
+    let dq = dq();
+    let q = dq.exp().ln();
+    println!("{}", q);
 }
 
 
@@ -70,6 +71,6 @@ fn main() {
     // let re = Quaternion::new(1.0, 2.0, 3.0, 4.0);
     // println!("{}", re);
     // test_exp();
-    test_tan();
+    test_qxp();
     // test_sin();
 }

@@ -403,6 +403,7 @@ impl<N: Real> DualQuaternion<N> {
     /// atan(u, u') = (atan(u), u' / sqrt(u^2 + 1))
     #[inline]
     pub fn atan(self) -> Self {
+        /// todo should re^2 + 1 be sqrt or not?
         let one = Quaternion::<N>::one();
         Self::new(self.re.atan(), self.du.right_div(&(self.re.squared() + one)).unwrap())
     }

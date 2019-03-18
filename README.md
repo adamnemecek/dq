@@ -5,3 +5,6 @@ This is an implementation of dual quaternions based on [nalgebra](https://github
 
 
 https://github.com/potan/dual.rs/blob/master/src/lib.rs
+
+
+https://blog.demofox.org/2014/12/30/dual-numbers-automatic-differentiation/
