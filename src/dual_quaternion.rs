@@ -221,7 +221,6 @@ impl<N: Real + AbsDiffEq<Epsilon = N>> AbsDiffEq for DualQuaternion<N> {
 }
 
 impl<N: Real + RelativeEq<Epsilon = N>> RelativeEq for DualQuaternion<N> {
-    // type Epsilon = N;
 
     #[inline]
     fn default_max_relative() -> Self::Epsilon {

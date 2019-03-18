@@ -13,7 +13,7 @@ extern crate approx;
 
 fn dq() -> DualQuaternion<f64> {
     let re = Quaternion::new(0.1, 0.2, 0.1, 0.2);
-    let du = Quaternion::new(0.1, 0.2, 0.1, 0.2);
+    let du = Quaternion::new(0.3, 0.1, 0.1, 0.2);
     DualQuaternion::<f64>::new(re, du)
 }
 
@@ -65,7 +65,7 @@ fn test_exp() {
 fn test_qxp() {
     let input = dq();
     let result = input.exp().ln();
-    println!("{}", result);
+    // println!("{}", result);
     
     assert_relative_eq!(input, result);
 }
