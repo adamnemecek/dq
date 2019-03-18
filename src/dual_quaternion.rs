@@ -6,6 +6,7 @@ use nalgebra::{Quaternion, Real, Vector3};
 //use super::*;
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,Neg};
 use std::cmp::Ordering;
+use crate::screw::Screw;
 
 #[repr(C)]
 #[derive(Copy, Clone, Debug)]
@@ -125,6 +126,12 @@ impl<N: Real> From<Quaternion<N>> for DualQuaternion<N> {
     }
 }
 
+impl<N: Real> From<DualQuaternion<N>> for Screw<N> {
+    fn from(s: DualQuaternion<N>) -> Self {
+        unimplemented!()
+    }
+}
+
 impl<N: Real> Zero for DualQuaternion<N> {
     #[inline]
     fn zero() -> Self {
@@ -226,7 +233,7 @@ impl<N: Real> MulAssign for DualQuaternion<N> {
 impl<N: Real> Div<Self> for DualQuaternion<N> {
     type Output = Self;
     fn div(self, other: Self) -> Self {
-        Self::new(self.re * other.re.inv().unwrap(),
+        Self::new(self.re.right_div(&other.re).unwrap(),
                  (self.du * other.re - self.re * other.du) * (other.re * other.re).inv().unwrap())
     }
 }
@@ -335,17 +342,22 @@ impl<N: Real> DualQuaternion<N> {
     //    Self::new(real, (self.re * other.du + other.re * self.du) / real)
     }
 
+    /// Sinus.
+    /// sin(u, u') = (sin(u), u'*cos(u))
     #[inline]
     pub fn sin(self) -> Self {
         Self::new(self.re.sin(), self.du * self.re.cos())
     }
 
+    /// Arcsinus.
     #[inline]
     pub fn asin(self) -> Self {
         let one = Quaternion::<N>::one();
         Self::new(self.re.asin(), self.du.right_div(&(one - self.re.squared())).unwrap().sqrt())
     }
 
+    /// Cosinus
+    /// cos(u, u') = (cos(u), -u'*sin(u))
     #[inline]
     pub fn cos(self) -> Self {
         Self::new(self.re.cos(), self.du.neg() * self.re.sin())
@@ -360,6 +372,8 @@ impl<N: Real> DualQuaternion<N> {
     //    Self::new(self.re.acos(), self.du.neg() / (N::one() - self.re.squared()).sqrt())
     }
 
+    /// Tangent
+    ///
     #[inline]
     pub fn tan(self) -> Self {
         let one = Quaternion::<N>::one();
@@ -395,6 +409,8 @@ impl<N: Real> DualQuaternion<N> {
 //        Self::new(self.re.ln_1p(), self.du / (self.re + N::one()))
 //    }
 
+    /// Hyperbolic sinus
+    /// (u, u') = (sinh(u), u' * cosh(u))
     #[inline]
     pub fn sinh(self) -> Self {
         Self::new(self.re.sinh(), self.du * self.re.cosh())
