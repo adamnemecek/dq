@@ -1,7 +1,7 @@
 extern crate nalgebra;
 extern crate num_traits;
 
-use num_traits::{One, Zero, Inv, Pow, Signed, Num};
+pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
 use nalgebra::{Quaternion, Real, Vector3};
 //use super::*;
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,Neg};
@@ -386,7 +386,7 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn acos(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.acos(), (-self.du).right_div(&(one - self.re.squared())).unwrap().sqrt())
+        Self::new(self.re.acos(), (-self.du).right_div(&(one - self.re.squared()).sqrt()).unwrap())
     }
 
     /// Tangent
@@ -503,7 +503,7 @@ impl<N: Real> DualQuaternion<N> {
 
 // impl<N: Real> std::fmt::Debug for DualQuaternion<N>  {
 //    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::FmtResult {
-    //    f.debug_tuple("Dual").field(self.re).field(self.du).finish()
+//        write!(f, "DualQuaternion {re: { r: {}, i: {}, j: {} }, du: }", self.x, self.y)
 //    }
 // }
 
