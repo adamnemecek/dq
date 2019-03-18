@@ -172,6 +172,14 @@ impl<N: Real> Default for DualQuaternion<N> {
         
     // }
 
+// use std::hash::{Hash, Hasher};
+
+// impl<N: Real> Hash for DualQuaternion<N> {
+//     fn hash<H: Hasher>(&self, state: &mut H) {
+//         self.re.hash(state);
+//         self.du.hash(state);
+//     }
+// }
 
 
 impl<N: Real> Inv for DualQuaternion<N> {
@@ -365,18 +373,15 @@ impl<N: Real> DualQuaternion<N> {
     /// cos(u, u') = (cos(u), -u'*sin(u))
     #[inline]
     pub fn cos(self) -> Self {
-        Self::new(self.re.cos(), -self.du * self.re.sin())
+        Self::new(self.re.cos(), (-self.du) * self.re.sin())
     }
 
     /// Arccosinus.
     /// acos(u, u') = (acos(u), -u' / sqrt(1 - u^2))
     #[inline]
     pub fn acos(self) -> Self {
-        // let one = Quaternion::<N>::one();
-        // Self::new(self.re.asin(), div(self.du, (one - self.re.squared()).sqrt()))
-
-        unimplemented!()
-    //    Self::new(self.re.acos(), self.du.neg() / (N::one() - self.re.squared()).sqrt())
+        let one = Quaternion::<N>::one();
+        Self::new(self.re.acos(), (-self.du).right_div(&(one - self.re.squared())).unwrap().sqrt())
     }
 
     /// Tangent
@@ -428,10 +433,9 @@ impl<N: Real> DualQuaternion<N> {
     /// Hyperbolic arcsinus.
     /// asinh(u, u') = (asinh(u), u' / sqrt(u^2 + 1))
     #[inline]
-    fn asinh(self) -> Self {
+    pub fn asinh(self) -> Self {
         let one = Quaternion::<N>::one();
-        unimplemented!()
-    //    Self::new(self.re.asinh(), self.du.left_div(&(self.re.squared() + one)).unwrap().sqrt())
+        Self::new(self.re.asinh(), self.du.right_div(&(self.re.squared() + one)).unwrap().sqrt())
     }
 
     /// Hyperbolic cosinus.
@@ -446,11 +450,10 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn acosh(self) -> Self {
         let one = Quaternion::<N>::one();
-        unimplemented!()
-    //    Self::new(
-    //        self.re.acosh(),
-    //        self.du.left_div(&((self.re + one.sqrt() * (self.re - one).sqrt())))
-    //    )
+        Self::new(
+            self.re.acosh(),
+            self.du.right_div(&((self.re + one).sqrt() * (self.re - one).sqrt())).unwrap()
+        )
     }
 
     /// Hyperbolic tangent.
@@ -466,7 +469,7 @@ impl<N: Real> DualQuaternion<N> {
     /// atanh(u, u') = (atanh(u), u' / (1 - u^2))
     #[inline]
     pub fn atanh(self) -> Self {
-        let one: Quaternion<N> = Quaternion::one();
+        let one = Quaternion::<N>::one();
         Self::new(self.re.atanh(), self.du.right_div(&(one - self.re.squared())).unwrap())
     }
 }
