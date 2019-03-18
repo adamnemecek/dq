@@ -3,7 +3,6 @@ extern crate num_traits;
 
 pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
 use nalgebra::{Quaternion, Real, Vector3};
-//use super::*;
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,Neg};
 use std::cmp::Ordering;
 use crate::screw::Screw;
@@ -34,7 +33,7 @@ impl<N: Real> DualQuaternion<N> {
 
     #[inline]
     pub fn translation(self) -> Vector3<N> {
-        let a = (self.du * self.re.conjugate());
+        let a = self.du * self.re.conjugate();
         (a + a).imag()
     }
 
@@ -74,9 +73,9 @@ impl<N: Real> DualQuaternion<N> {
         self * self
     }
 
-//    pub fn scale(self) -> N {
-//        N::from_f64(1.0f64) / self.re.magnitude()
-//    }
+   pub fn scale(self) -> N {
+       N::one() / self.re.norm_squared()
+   }
 
     #[inline]
     pub fn exp(self) -> Self {
@@ -87,7 +86,8 @@ impl<N: Real> DualQuaternion<N> {
 
     #[inline]
     pub fn ln(self) -> Self {
-        Self::new(self.re.ln(), self.du.right_div(&self.re).unwrap())
+        let du = (self.re.conjugate() * self.du) * self.scale();
+        Self::new(self.re.ln(), du)
     }
 
     #[inline]
