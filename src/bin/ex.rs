@@ -76,6 +76,8 @@ fn main() {
     // let re = Quaternion::new(1.0, 2.0, 3.0, 4.0);
     // println!("{}", re);
     // test_exp();
-    test_qxp();
+    // test_exp();
+    let input = dq();
+    println!("{}", input.exp());
     // test_sin();
 }

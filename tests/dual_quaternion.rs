@@ -10,8 +10,8 @@ extern crate approx;
 
 fn dq() -> DualQuaternion<f64> {
     let re = Quaternion::new(0.1, 0.2, 0.1, 0.2);
-    let du = Quaternion::new(0.3, 0.1, 0.1, 0.2);
-    DualQuaternion::<f64>::new(re, du)
+    let du = Quaternion::new(0.2, 0.1, 0.1, 0.2);
+    DualQuaternion::new(re, du)
 }
 
 #[test]
