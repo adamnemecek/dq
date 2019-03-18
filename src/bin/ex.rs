@@ -8,6 +8,9 @@ use nalgebra::Quaternion;
 extern crate num_traits;
 use num_traits::Inv;
 
+#[macro_use]
+extern crate approx;
+
 fn dq() -> DualQuaternion<f64> {
     let re = Quaternion::new(0.1, 0.2, 0.1, 0.2);
     let du = Quaternion::new(0.1, 0.2, 0.1, 0.2);
@@ -60,9 +63,11 @@ fn test_exp() {
 }
 
 fn test_qxp() {
-    let dq = dq();
-    let q = dq.exp().ln();
-    println!("{}", q);
+    let input = dq();
+    let result = input.exp().ln();
+    println!("{}", result);
+    
+    assert_relative_eq!(input, result);
 }
 
 

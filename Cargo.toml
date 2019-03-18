@@ -7,6 +7,7 @@ edition = "2018"
 [dependencies]
 num-traits = "*"
 nalgebra = { git = "https://github.com/adamnemecek/nalgebra", branch="div2" }
+approx = "*"
 
 [patch.crates-io]
 alga = { git = "https://github.com/rustsim/alga", branch = "dev" }
