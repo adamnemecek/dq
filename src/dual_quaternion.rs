@@ -45,8 +45,13 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     #[inline]
-    pub fn conjugate2(&self) -> Self {
-        unimplemented!()
+    pub fn quat_conjugate(&self) -> Self {
+        Self::new(self.re.conjugate(), self.du.conjugate())
+    }
+
+    #[inline]
+    pub fn dual_conjugate(&self) -> Self {
+        Self::new(self.re, -self.du)
     }
 
     #[inline]
@@ -68,7 +73,7 @@ impl<N: Real> DualQuaternion<N> {
     pub fn exp(self) -> Self {
         let r = self.re.exp();
         /// what about the order?
-        Self::new(r, r * self.du)
+        Self::new(r, self.du * r)
     }
 
     #[inline]
@@ -82,7 +87,7 @@ impl<N: Real> DualQuaternion<N> {
 
     #[inline]
     pub fn ln(self) -> Self {
-        Self::new(self.re.ln(), self.du * self.re.inv().unwrap())
+        Self::new(self.re.ln(), self.du.right_div(&self.re).unwrap())
     }
 
     #[inline]
