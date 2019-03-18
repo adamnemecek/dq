@@ -404,7 +404,7 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn atan(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.atan(), self.du.right_div(&(self.re.squared() + one).sqrt()).unwrap())
+        Self::new(self.re.atan(), self.du.right_div(&(self.re.squared() + one)).unwrap())
     }
 
 //    #[inline]

@@ -70,6 +70,6 @@ fn main() {
     // let re = Quaternion::new(1.0, 2.0, 3.0, 4.0);
     // println!("{}", re);
     // test_exp();
-    test_cosh();
+    test_tan();
     // test_sin();
 }
