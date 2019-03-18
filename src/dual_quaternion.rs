@@ -211,24 +211,21 @@ impl<N: Real + AbsDiffEq<Epsilon = N>> AbsDiffEq for DualQuaternion<N> {
 
     #[inline]
     fn default_epsilon() -> Self::Epsilon {
-        // N::default_epsilon()
-        unimplemented!()
+        Quaternion::default_epsilon()
     }
 
     #[inline]
     fn abs_diff_eq(&self, other: &Self, epsilon: Self::Epsilon) -> bool {
-        // self.as_vector().abs_diff_eq(other.as_vector(), epsilon) ||
-        // Account for the double-covering of S², i.e. q = -q
-        // self.as_vector().iter().zip(other.as_vector().iter()).all(|(a, b)| a.abs_diff_eq(&-*b, epsilon))
-        unimplemented!()
+        self.re.abs_diff_eq(&other.re, epsilon) && self.du.abs_diff_eq(&other.du, epsilon)
     }
 }
 
 impl<N: Real + RelativeEq<Epsilon = N>> RelativeEq for DualQuaternion<N> {
+    // type Epsilon = N;
+
     #[inline]
     fn default_max_relative() -> Self::Epsilon {
-        // N::default_max_relative()
-        unimplemented!()
+        Quaternion::default_max_relative()
     }
 
     #[inline]
@@ -239,10 +236,8 @@ impl<N: Real + RelativeEq<Epsilon = N>> RelativeEq for DualQuaternion<N> {
         max_relative: Self::Epsilon,
     ) -> bool
     {
-        // self.as_vector().relative_eq(other.as_vector(), epsilon, max_relative) ||
-        // Account for the double-covering of S², i.e. q = -q
-        // self.as_vector().iter().zip(other.as_vector().iter()).all(|(a, b)| a.relative_eq(&-*b, epsilon, max_relative))
-        unimplemented!()
+        self.re.relative_eq(&other.re, epsilon, max_relative) &&
+        self.du.relative_eq(&other.du, epsilon, max_relative)
     }
 }
 
