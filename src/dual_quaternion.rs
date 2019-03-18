@@ -9,7 +9,7 @@ use std::cmp::Ordering;
 use crate::screw::Screw;
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone)]
 pub struct DualQuaternion<N: Real> {
    pub re: Quaternion<N>,
    pub du: Quaternion<N>,
@@ -371,7 +371,7 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn asin(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.asin(), self.du.right_div(&(one - self.re.squared())).unwrap().sqrt())
+        Self::new(self.re.asin(), self.du.right_div(&(one - self.re.squared()).sqrt()).unwrap())
     }
 
     /// Cosinus.
@@ -501,10 +501,15 @@ impl<N: Real> DualQuaternion<N> {
 //     }
 // }
 
-// impl<N: Real> std::fmt::Debug for DualQuaternion<N>  {
-//    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::FmtResult {
-//        write!(f, "DualQuaternion {re: { r: {}, i: {}, j: {} }, du: }", self.x, self.y)
-//    }
-// }
+impl<N: Real> std::fmt::Display for DualQuaternion<N>  {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "DualQuaternion(re: {}, du: {})", self.re, self.du)
+    }
+}
 
-
+impl<N: Real> std::fmt::Debug for DualQuaternion<N>  {
+    //
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "DualQuaternion(re: {}, du: {})", self.re, self.du)
+    }
+}
