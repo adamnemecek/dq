@@ -350,19 +350,22 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     /// Arcsinus.
+    /// asin(u, u') = (asin(u), u' / sqrt(1 - u^2))
     #[inline]
     pub fn asin(self) -> Self {
         let one = Quaternion::<N>::one();
         Self::new(self.re.asin(), self.du.right_div(&(one - self.re.squared())).unwrap().sqrt())
     }
 
-    /// Cosinus
+    /// Cosinus.
     /// cos(u, u') = (cos(u), -u'*sin(u))
     #[inline]
     pub fn cos(self) -> Self {
-        Self::new(self.re.cos(), self.du.neg() * self.re.sin())
+        Self::new(self.re.cos(), -self.du * self.re.sin())
     }
 
+    /// Arccosinus.
+    /// acos(u, u') = (acos(u), -u' / sqrt(1 - u^2))
     #[inline]
     pub fn acos(self) -> Self {
         // let one = Quaternion::<N>::one();
@@ -373,7 +376,7 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     /// Tangent
-    ///
+    /// tan(u, u') = (tan(u), u' * (tan(u)^2 + 1))
     #[inline]
     pub fn tan(self) -> Self {
         let one = Quaternion::<N>::one();
@@ -381,6 +384,8 @@ impl<N: Real> DualQuaternion<N> {
         Self::new(t, self.du * (t * t + one))
     }
 
+    /// Arctangent.
+    /// atan(u, u') = (atan(u), u' / sqrt(u^2 + 1))
     #[inline]
     pub fn atan(self) -> Self {
         let one = Quaternion::<N>::one();
@@ -409,13 +414,15 @@ impl<N: Real> DualQuaternion<N> {
 //        Self::new(self.re.ln_1p(), self.du / (self.re + N::one()))
 //    }
 
-    /// Hyperbolic sinus
-    /// (u, u') = (sinh(u), u' * cosh(u))
+    /// Hyperbolic sinus.
+    /// sinh(u, u') = (sinh(u), u' * cosh(u))
     #[inline]
     pub fn sinh(self) -> Self {
         Self::new(self.re.sinh(), self.du * self.re.cosh())
     }
 
+    /// Hyperbolic arcsinus.
+    /// asinh(u, u') = (asinh(u), u' / sqrt(u^2 + 1))
     #[inline]
     fn asinh(self) -> Self {
         let one = Quaternion::<N>::one();
@@ -423,11 +430,15 @@ impl<N: Real> DualQuaternion<N> {
     //    Self::new(self.re.asinh(), self.du.left_div(&(self.re.squared() + one)).unwrap().sqrt())
     }
 
+    /// Hyperbolic cosinus.
+    /// cosh(u, u') = (cosh(u), u' * sinh(u))
     #[inline]
     pub fn cosh(self) -> Self {
         Self::new(self.re.cosh(), self.du * self.re.sinh())
     }
 
+    /// Hyperbolic arccosinus.
+    /// acosh(u, u') = (acosh(u), u' / (sqrt(u + 1) * sqrt(u - 1)))
     #[inline]
     pub fn acosh(self) -> Self {
         let one = Quaternion::<N>::one();
@@ -438,13 +449,17 @@ impl<N: Real> DualQuaternion<N> {
     //    )
     }
 
+    /// Hyperbolic tangent.
+    /// tanh(u, u') = (u, u' * (1 - u^2))
     #[inline]
     pub fn tanh(self) -> Self {
-        let real = self.re.tanh();
         let one = Quaternion::<N>::one();
+        let real = self.re.tanh();
         Self::new(real, self.du * (one - real.squared()))
     }
 
+    /// Hyperbolic arctangent.
+    /// atanh(u, u') = (atanh(u), u' / (1 - u^2))
     #[inline]
     pub fn atanh(self) -> Self {
         let one: Quaternion<N> = Quaternion::one();

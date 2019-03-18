@@ -12,3 +12,8 @@ fn test_sin() {
     let dq = DualQuaternion::<f64>::new(re, du);
 
 }
+
+#[test]
+fn test_rotation() {
+    
+}
