@@ -1,7 +1,7 @@
 extern crate nalgebra;
 extern crate num_traits;
 
-use num_traits::{One, Zero, Inv, Signed, Num};
+use num_traits::{One, Zero, Inv, Pow, Signed, Num};
 use nalgebra::{Quaternion, Real, Vector3};
 //use super::*;
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,Neg};
@@ -72,11 +72,6 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     #[inline]
-    pub fn pow(self, t: N) -> Self {
-        (self.ln() * t).exp()
-    }
-
-    #[inline]
     pub fn squared(self) -> Self {
         self * self
     }
@@ -108,6 +103,15 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn slerp(self, other: Self, t: N) -> Self {
         (other * self.conjugate()).pow(t) * self
+    }
+}
+
+impl<N: Real> Pow<N> for DualQuaternion<N> {
+    type Output = Self;
+
+    #[inline]
+    fn pow(self, t: N) -> Self::Output {
+        (self.ln() * t).exp()
     }
 }
 
@@ -187,7 +191,7 @@ impl<N: Real> PartialEq for DualQuaternion<N> {
 
 impl<N: Real> PartialOrd for DualQuaternion<N> {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        unimplemented!()
+        self.re.magnitude().partial_cmp(&other.magnitude())
     }
 }
 
