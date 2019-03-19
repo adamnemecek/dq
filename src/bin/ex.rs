@@ -77,7 +77,7 @@ fn main() {
     // println!("{}", re);
     // test_exp();
     // test_exp();
-    let input = dq();
-    println!("{}", input.exp());
+    // let input = dq();
+    // println!("{}", input.exp());
     // test_sin();
 }

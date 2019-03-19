@@ -388,14 +388,14 @@ impl<N: Real> DualQuaternion<N> {
 //        Self::new(real, self.du / (N::from(3).unwrap() * real))
 //    }
 
-    #[inline]
-    pub fn hypot(self, other: Self) -> Self {
-        // self.to_homogeneous();
-    //    self.re.powf(n: N)
-           unimplemented!()
-    //    let real = self.re.hypot(other.re);
-    //    Self::new(real, (self.re * other.du + other.re * self.du) / real)
-    }
+    // #[inline]
+    // pub fn hypot(self, other: Self) -> Self {
+    //     // self.to_homogeneous();
+    // //    self.re.powf(n: N)
+    //        unimplemented!()
+    // //    let real = self.re.hypot(other.re);
+    // //    Self::new(real, (self.re * other.du + other.re * self.du) / real)
+    // }
 
     /// Sinus.
     /// sin(u, u') = (sin(u), u'*cos(u))
