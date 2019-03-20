@@ -45,6 +45,7 @@ fn test_pow2() {
 
 #[test]
 fn test_conjugate() {
+
     let a = dq();
     let b = dq2();
 
@@ -54,15 +55,19 @@ fn test_conjugate() {
 }
 
 
-// #[test]
-// fn test_slerp() {
-//     let a = dq();
-//     let b = dq2();
+#[test]
+fn test_slerp() {
+    let a = dq();
+    let b = dq2();
 
-//     let c = a.slerp(&b, 1.5f64);
+    let result = a.slerp(b, 1.5f64);
 
-//     assert_relative_eq!(left, right, epsilon = 1.0e-7);
-// }
+    let expectedRe = Quaternion::<f64>::new(0.00766191, 0.00959764, 0.0191143, -0.00185473);
+    let expectedDu = Quaternion::<f64>::new(0.0256795, 0.0370031, 0.0714485, 0.0113163);
+    let expected = DualQuaternion::<f64>::new(expectedRe, expectedDu);
+
+    assert_relative_eq!(result, expected, epsilon = 1.0e-7);
+}
 
 #[test]
 fn test_inv() {
