@@ -73,19 +73,10 @@ impl<N: Real> DualQuaternion<N> {
         self * self
     }
 
+    #[inline]
     pub fn scale(self) -> N {
         N::one() / self.re.norm_squared()
     }
-
-
-
-    // #[inline]
-    // pub fn exp_v2(self) -> Self {
-    //     let one = Quaternion::<N>::one();
-    //     let r = self.re.exp();
-    //     Self::new(one, self.du) * Self::from(r)
-    // }
-
 
     #[inline]
     pub fn ln(self) -> Self {
@@ -129,7 +120,7 @@ impl<N: Real> From<Matrix4<N>> for DualQuaternion<N> {
 impl<N: Real> Pow<N> for DualQuaternion<N> {
     type Output = Self;
 
-    /// Due to nilpotence, going past 
+    /// Due to nilpotence, going past, the interpolation range is 1-2.
     #[inline]
     fn pow(self, t: N) -> Self::Output {
         (self.ln() * t).exp()
