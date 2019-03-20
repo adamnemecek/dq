@@ -86,29 +86,24 @@ impl<N: Real> DualQuaternion<N> {
     //     Self::new(one, self.du) * Self::from(r)
     // }
 
-    // #[inline]
-    // pub fn exp(self) -> Self {
-    //     let r = self.re.exp();
-    //     Self::new(r, r * self.du)
-    // }
 
-    // #[inline]
-    // pub fn ln(self) -> Self {
-    //     let du = (self.re.conjugate() * self.du) * self.scale();
-    //     Self::new(self.re.ln(), du)
-    // }
+    #[inline]
+    pub fn ln(self) -> Self {
+        let du = (self.re.conjugate() * self.du) * self.scale();
+        Self::new(self.re.ln(), du)
+    }
     #[inline]
     pub fn exp(self) -> Self {
         let r = self.re.exp();
         Self::new(r, r * self.du)
     }
 
-    #[inline]
-    pub fn ln(self) -> Self {
-        // let du = (self.re.conjugate() * self.du) * self.scale();
+    // #[inline]
+    // pub fn ln(self) -> Self {
+    //     // let du = (self.re.conjugate() * self.du) * self.scale();
         
-        Self::new(self.re.ln(), self.re.try_inverse().unwrap() * self.du)
-    }
+    //     Self::new(self.re.ln(), self.re.try_inverse().unwrap() * self.du)
+    // }
 
     #[inline]
     pub fn log(self, base: Self) -> Self {
@@ -384,6 +379,7 @@ impl<N: Real> DivAssign<N> for DualQuaternion<N> {
 }
 
 impl<N: Real> DualQuaternion<N> {
+    /// not sure
     #[inline]
     pub fn powf(self, n: N) -> Self {
         // let nf = <N as NumCast>::from(n).expect("Invalid value");
