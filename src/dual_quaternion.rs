@@ -2,7 +2,7 @@ extern crate nalgebra;
 extern crate num_traits;
 extern crate approx;
 
-use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign,Neg};
+use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
 use std::cmp::Ordering;
 
 pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
@@ -15,8 +15,8 @@ use approx::{RelativeEq, AbsDiffEq};
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct DualQuaternion<N: Real> {
-   pub re: Quaternion<N>,
-   pub du: Quaternion<N>,
+    pub re: Quaternion<N>,
+    pub du: Quaternion<N>,
 }
 
 impl<N: Real> DualQuaternion<N> {
@@ -33,7 +33,7 @@ impl<N: Real> DualQuaternion<N> {
 
     #[inline]
     pub fn rotation(self) -> Quaternion<N> {
-       self.re
+        self.re
     }
 
     #[inline]
@@ -78,14 +78,13 @@ impl<N: Real> DualQuaternion<N> {
         self * self
     }
 
-   pub fn scale(self) -> N {
-       N::one() / self.re.norm_squared()
-   }
+    pub fn scale(self) -> N {
+        N::one() / self.re.norm_squared()
+    }
 
     #[inline]
     pub fn exp(self) -> Self {
         let r = self.re.exp();
-        /// what about the order?
         Self::new(r, r * self.du)
     }
 
@@ -104,9 +103,9 @@ impl<N: Real> DualQuaternion<N> {
     //     (self.ln().half().exp()
     // }
 
-//    pub fn lerp(self, other: Self, t: T) -> Self {
-//        todo()
-//    }
+    //    pub fn lerp(self, other: Self, t: T) -> Self {
+    //        todo()
+    //    }
 
     #[inline]
     pub fn slerp(self, other: Self, t: N) -> Self {
@@ -126,8 +125,7 @@ impl<N: Real> Pow<N> for DualQuaternion<N> {
 impl<N: Real> From<N> for DualQuaternion<N> {
     #[inline]
     fn from(v: N) -> Self {
-        Self::new(Quaternion::from_real(v),
-                  Quaternion::zero())
+        Self::new(Quaternion::from_real(v), Quaternion::zero())
     }
 }
 
@@ -174,11 +172,11 @@ impl<N: Real> Default for DualQuaternion<N> {
 
 // }
 
-    // /// homogenous coordinates
-    // /// 
-    // fn homo() {
-        
-    // }
+// /// homogenous coordinates
+// ///
+// fn homo() {
+
+// }
 
 // use std::hash::{Hash, Hasher};
 
@@ -220,7 +218,6 @@ impl<N: Real + AbsDiffEq<Epsilon = N>> AbsDiffEq for DualQuaternion<N> {
 }
 
 impl<N: Real + RelativeEq<Epsilon = N>> RelativeEq for DualQuaternion<N> {
-
     #[inline]
     fn default_max_relative() -> Self::Epsilon {
         Quaternion::default_max_relative()
@@ -232,10 +229,9 @@ impl<N: Real + RelativeEq<Epsilon = N>> RelativeEq for DualQuaternion<N> {
         other: &Self,
         epsilon: Self::Epsilon,
         max_relative: Self::Epsilon,
-    ) -> bool
-    {
+    ) -> bool {
         self.re.relative_eq(&other.re, epsilon, max_relative) &&
-        self.du.relative_eq(&other.du, epsilon, max_relative)
+            self.du.relative_eq(&other.du, epsilon, max_relative)
     }
 }
 
@@ -273,8 +269,7 @@ impl<N: Real> SubAssign for DualQuaternion<N> {
 impl<N: Real> Mul for DualQuaternion<N> {
     type Output = Self;
     fn mul(self, other: Self) -> Self {
-        Self::new(self.re * other.re, 
-                  self.re * other.du + self.du * other.re)
+        Self::new(self.re * other.re, self.re * other.du + self.du * other.re)
     }
 }
 
@@ -287,8 +282,10 @@ impl<N: Real> MulAssign for DualQuaternion<N> {
 impl<N: Real> Div<Self> for DualQuaternion<N> {
     type Output = Self;
     fn div(self, other: Self) -> Self {
-        Self::new(self.re.right_div(&other.re).unwrap(),
-                 (self.du * other.re - self.re * other.du) * (other.re * other.re).inv().unwrap())
+        Self::new(
+            self.re.right_div(&other.re).unwrap(),
+            (self.du * other.re - self.re * other.du) * (other.re * other.re).inv().unwrap(),
+        )
     }
 }
 
@@ -300,7 +297,7 @@ impl<N: Real> DivAssign for DualQuaternion<N> {
 
 impl<N: Real> Neg for DualQuaternion<N> {
     type Output = Self;
-    
+
     #[inline]
     fn neg(self) -> Self {
         Self::new(self.re.neg(), self.du.neg())
@@ -329,7 +326,7 @@ impl<N: Real> AddAssign<N> for DualQuaternion<N> {
 }
 
 impl<N: Real> Sub<N> for DualQuaternion<N> {
-   type Output = Self;
+    type Output = Self;
 
     #[inline]
     fn sub(self, other: N) -> Self {
@@ -384,12 +381,12 @@ impl<N: Real> DualQuaternion<N> {
     //     Self::new(self.re.powf(n), nf * self.real().powf(n - 1) * self.dual())
     // }
 
-//    #[inline]
-//    fn cbrt(self) -> Self {
-//        let real = self.re.cbrt();
+    //    #[inline]
+    //    fn cbrt(self) -> Self {
+    //        let real = self.re.cbrt();
 
-//        Self::new(real, self.du / (N::from(3).unwrap() * real))
-//    }
+    //        Self::new(real, self.du / (N::from(3).unwrap() * real))
+    //    }
 
     // #[inline]
     // pub fn hypot(self, other: Self) -> Self {
@@ -412,7 +409,12 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn asin(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.asin(), self.du.right_div(&(one - self.re.squared()).sqrt()).unwrap())
+        Self::new(
+            self.re.asin(),
+            self.du
+                .right_div(&(one - self.re.squared()).sqrt())
+                .unwrap(),
+        )
     }
 
     /// Cosinus.
@@ -427,7 +429,12 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn acos(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.acos(), (-self.du).right_div(&(one - self.re.squared()).sqrt()).unwrap())
+        Self::new(
+            self.re.acos(),
+            (-self.du)
+                .right_div(&(one - self.re.squared()).sqrt())
+                .unwrap(),
+        )
     }
 
     /// Tangent.
@@ -436,7 +443,7 @@ impl<N: Real> DualQuaternion<N> {
     pub fn tan(self) -> Self {
         let one = Quaternion::<N>::one();
         let t = self.re.tan();
-        Self::new(t,(t * t + one) *  self.du)
+        Self::new(t, (t * t + one) * self.du)
     }
 
     /// Arctangent.
@@ -445,36 +452,32 @@ impl<N: Real> DualQuaternion<N> {
     pub fn atan(self) -> Self {
         /// todo should re^2 + 1 be sqrt or not?
         let one = Quaternion::<N>::one();
-        Self::new(self.re.atan(), self.du.right_div(&(self.re.squared() + one)).unwrap())
+        Self::new(
+            self.re.atan(),
+            self.du.right_div(&(self.re.squared() + one)).unwrap(),
+        )
     }
 
-//    #[inline]
-//    pub fn atan2(self, other: Self) -> Self {
-//         Self::new(
-//             self.re.atan2(other.re),
-//             div(other.re * self.du - self.re * other.du, (self.re.squared() + other.re.squared()),
-//         )
-//     //    Self::new(
-//         //    self.re.atan2(other.re),
-//         //    (other.re * self.du - self.re * other.du) / (self.re.squared() + other.re.squared()),
-//     //    )
-//    }
+    #[inline]
+    pub fn atan2(self, other: Self) -> Self {
+        (self / other).atan()
+    }
 
-//    #[inline]
-//    fn exp_m1(self) -> Self {
-//        Self::new(self.re.exp_m1(), self.du * self.re.exp())
-//    }
+    //    #[inline]
+    //    fn exp_m1(self) -> Self {
+    //        Self::new(self.re.exp_m1(), self.du * self.re.exp())
+    //    }
 
-//    #[inline]
-//    fn ln_1p(self) -> Self {
-//        Self::new(self.re.ln_1p(), self.du / (self.re + N::one()))
-//    }
+    //    #[inline]
+    //    fn ln_1p(self) -> Self {
+    //        Self::new(self.re.ln_1p(), self.du / (self.re + N::one()))
+    //    }
 
     /// Hyperbolic sinus.
     /// sinh(u, u') = (sinh(u), cosh(u) * u')
     #[inline]
     pub fn sinh(self) -> Self {
-        Self::new(self.re.sinh(), self.re.cosh()* self.du)
+        Self::new(self.re.sinh(), self.re.cosh() * self.du)
     }
 
     /// Hyperbolic arcsinus.
@@ -482,7 +485,12 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn asinh(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.asinh(), self.du.right_div(&(self.re.squared() + one).sqrt()).unwrap())
+        Self::new(
+            self.re.asinh(),
+            self.du
+                .right_div(&(self.re.squared() + one).sqrt())
+                .unwrap(),
+        )
     }
 
     /// Hyperbolic cosinus.
@@ -499,7 +507,9 @@ impl<N: Real> DualQuaternion<N> {
         let one = Quaternion::<N>::one();
         Self::new(
             self.re.acosh(),
-            self.du.right_div(&(self.re.squared() - one).sqrt()).unwrap()
+            self.du
+                .right_div(&(self.re.squared() - one).sqrt())
+                .unwrap(),
         )
     }
 
@@ -517,7 +527,10 @@ impl<N: Real> DualQuaternion<N> {
     #[inline]
     pub fn atanh(self) -> Self {
         let one = Quaternion::<N>::one();
-        Self::new(self.re.atanh(), self.du.right_div(&(one - self.re.squared())).unwrap())
+        Self::new(
+            self.re.atanh(),
+            self.du.right_div(&(one - self.re.squared())).unwrap(),
+        )
     }
 }
 
@@ -543,13 +556,13 @@ impl<N: Real> DualQuaternion<N> {
 //     }
 // }
 
-impl<N: Real> std::fmt::Display for DualQuaternion<N>  {
+impl<N: Real> std::fmt::Display for DualQuaternion<N> {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "DualQuaternion(re: {}, du: {})", self.re, self.du)
     }
 }
 
-impl<N: Real> std::fmt::Debug for DualQuaternion<N>  {
+impl<N: Real> std::fmt::Debug for DualQuaternion<N> {
     //
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "DualQuaternion(re: {}, du: {})", self.re, self.du)
