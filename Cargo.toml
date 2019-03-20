@@ -1,5 +1,5 @@
 [package]
-name = "dual_quaternion"
+name = "dq"
 version = "0.1.0"
 authors = ["Adam Nemecek <adamnemecek@gmail.com>"]
 
