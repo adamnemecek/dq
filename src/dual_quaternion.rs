@@ -1,10 +1,13 @@
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
 use std::cmp::Ordering;
+pub use std::hash;
 
 pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
 pub use nalgebra::{Quaternion, Real, Vector3, Matrix4};
 
 pub use approx::{RelativeEq, AbsDiffEq};
+
+
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -176,7 +179,6 @@ impl<N: Real> DualQuaternion<N> {
     /// atan(u, u') = (atan(u), u' / sqrt(u^2 + 1))
     #[inline]
     pub fn atan(self) -> Self {
-        /// todo should re^2 + 1 be sqrt or not?
         let one = Quaternion::<N>::one();
         Self::new(
             self.re.atan(),
@@ -331,6 +333,13 @@ impl<N: Real> Inv for DualQuaternion<N> {
     #[inline]
     fn inv(self) -> Self::Output {
         self.conjugate() / self.magnitude()
+    }
+}
+
+
+impl<N: Real + hash::Hash> hash::Hash for DualQuaternion<N> {
+    fn hash<H: hash::Hasher>(&self, state: &mut H) {
+        self.re.hash(state)
     }
 }
 
