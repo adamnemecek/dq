@@ -7,7 +7,8 @@ pub use nalgebra::{Quaternion, Real, Vector3, Matrix4};
 
 pub use approx::{RelativeEq, AbsDiffEq};
 
-
+use rand::distributions::{Distribution, OpenClosed01, Standard};
+use rand::Rng;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -167,7 +168,7 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     /// Tangent.
-    /// tan(u, u') = (tan(u), (u' * tan(u)^2 + 1) )
+    /// tan(u, u') = (tan(u), u' * tan(u)^2 + 1)
     #[inline]
     pub fn tan(self) -> Self {
         let one = Quaternion::<N>::one();
@@ -252,13 +253,6 @@ impl<N: Real> DualQuaternion<N> {
     }
 }
 
-impl<N: Real> From<Matrix4<N>> for DualQuaternion<N> {
-    fn from(m: Matrix4<N>) -> Self {
-        // m
-        unimplemented!()
-    }
-}
-
 impl<N: Real> Pow<N> for DualQuaternion<N> {
     type Output = Self;
 
@@ -267,6 +261,13 @@ impl<N: Real> Pow<N> for DualQuaternion<N> {
     #[inline]
     fn pow(self, t: N) -> Self::Output {
         (self.ln() * t).exp()
+    }
+}
+
+impl<N: Real> From<Matrix4<N>> for DualQuaternion<N> {
+    fn from(m: Matrix4<N>) -> Self {
+        // m
+        unimplemented!()
     }
 }
 
@@ -528,6 +529,16 @@ impl<N: Real> DivAssign<N> for DualQuaternion<N> {
 //         unimplemented!()
 //     }
 // }
+
+
+impl<N: Real> Distribution<DualQuaternion<N>> for Standard
+where Standard: Distribution<N>
+{
+    #[inline]
+    fn sample<'a, R: Rng + ?Sized>(&self, rng: &'a mut R) -> DualQuaternion<N> {
+        DualQuaternion::new(rng.gen::<Quaternion<N>>(), rng.gen::<Quaternion<N>>())
+    }
+}
 
 impl<N: Real> std::fmt::Display for DualQuaternion<N> {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {

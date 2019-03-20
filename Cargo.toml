@@ -5,7 +5,7 @@ authors = ["Adam Nemecek <adamnemecek@gmail.com>"]
 
 description = "A complete implementation of dual quaternions."
 
-keywords = [ "quaternion", "dual", "math", "lie-theory", "skinning" ]
+keywords = [ "clifford", "clifford-algebra", "quaternion", "dual-numbers", "math", "lie-theory", "skinning" ]
 license = "BSD-3-Clause"
 repository = "https://github.com/adamnemecek/dq"
 categories = [ "science" ]
@@ -14,6 +14,7 @@ categories = [ "science" ]
 num-traits = "*"
 nalgebra = { git = "https://github.com/adamnemecek/nalgebra", branch="div2" }
 approx = "*"
+rand = "*"
 
 [patch.crates-io]
 alga = { git = "https://github.com/rustsim/alga", branch = "dev" }
