@@ -1,18 +1,7 @@
 
-// extern crate nalgebra;
-// use nalgebra::Quaternion;
+extern crate nalgebra;
+extern crate num_traits;
+extern crate approx;
 
 pub mod dual_quaternion;
 pub mod screw;
-
-// pub use dual_quaternion::*;
-
-
-
-// #[cfg(test)]
-// mod tests {
-//     #[test]
-//     fn it_works() {
-//         assert_eq!(2 + 2, 4);
-//     }
-// }

@@ -1,14 +1,8 @@
-extern crate nalgebra;
-extern crate num_traits;
-extern crate approx;
-
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
 use std::cmp::Ordering;
 
 pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
 use nalgebra::{Quaternion, Real, Vector3};
-
-use crate::screw::Screw;
 
 use approx::{RelativeEq, AbsDiffEq};
 
@@ -31,6 +25,7 @@ impl<N: Real> DualQuaternion<N> {
         Self::new(rot, Quaternion::<N>::from_imag(t).half() * rot)
     }
 
+    /// The real part of the quaternion.
     #[inline]
     pub fn rotation(self) -> Quaternion<N> {
         self.re
@@ -82,11 +77,7 @@ impl<N: Real> DualQuaternion<N> {
         N::one() / self.re.norm_squared()
     }
 
-    #[inline]
-    pub fn exp(self) -> Self {
-        let r = self.re.exp();
-        Self::new(r, r * self.du)
-    }
+
 
     // #[inline]
     // pub fn exp_v2(self) -> Self {
@@ -95,10 +86,28 @@ impl<N: Real> DualQuaternion<N> {
     //     Self::new(one, self.du) * Self::from(r)
     // }
 
+    // #[inline]
+    // pub fn exp(self) -> Self {
+    //     let r = self.re.exp();
+    //     Self::new(r, r * self.du)
+    // }
+
+    // #[inline]
+    // pub fn ln(self) -> Self {
+    //     let du = (self.re.conjugate() * self.du) * self.scale();
+    //     Self::new(self.re.ln(), du)
+    // }
+    #[inline]
+    pub fn exp(self) -> Self {
+        let r = self.re.exp();
+        Self::new(r, r * self.du)
+    }
+
     #[inline]
     pub fn ln(self) -> Self {
-        let du = (self.re.conjugate() * self.du) * self.scale();
-        Self::new(self.re.ln(), du)
+        // let du = (self.re.conjugate() * self.du) * self.scale();
+        
+        Self::new(self.re.ln(), self.re.try_inverse().unwrap() * self.du)
     }
 
     #[inline]
@@ -285,7 +294,7 @@ impl<N: Real> Div<Self> for DualQuaternion<N> {
     fn div(self, other: Self) -> Self {
         Self::new(
             self.re.right_div(&other.re).unwrap(),
-            (self.du * other.re - self.re * other.du) * (other.re * other.re).inv().unwrap(),
+            (self.du * other.re - self.re * other.du) * (other.re * other.re).try_inverse().unwrap(),
         )
     }
 }

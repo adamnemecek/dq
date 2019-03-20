@@ -2,8 +2,8 @@
 extern crate nalgebra;
 use nalgebra::Quaternion;
 
-extern crate dual_quaternion;
-use dual_quaternion::dual_quaternion::*;
+extern crate dq;
+use dq::dual_quaternion::*;
 
 
 
@@ -30,18 +30,18 @@ fn test_exp() {
 }
 
 
-#[test]
-fn test_pow() {
+// #[test]
+// fn test_pow() {
 
-    let input = dq();
-    // let a = input.exp();
+//     let input = dq();
+//     // let a = input.exp();
     
     
-    let a = input * input * input;
-    let b = input.pow(3.0);
+//     let a = input * input * input;
+//     let b = input.pow(3.0);
     
-    assert_relative_eq!(a, b, epsilon = 1.0e-7);
-}
+//     assert_relative_eq!(a, b, epsilon = 1.0e-7);
+// }
 
 
 

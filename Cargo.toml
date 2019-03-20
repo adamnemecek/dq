@@ -7,16 +7,13 @@ description = "A complete implementation of dual quaternions."
 
 keywords = [ "quaternion", "dual", "math", "lie-theory", "skinning" ]
 license = "BSD-3-Clause"
-repository = "https://github.com/rustsim/nalgebra"
+repository = "https://github.com/adamnemecek/dq"
 categories = [ "science" ]
 
 [dependencies]
-#num-traits = "*"
-num-traits     = { version = "0.2", default-features = false }
-#nalgebra = { git = "https://github.com/adamnemecek/nalgebra", branch="div2" }
-nalgebra = "0.17.3"
-#approx = "*"
-approx         = { version = "0.3", default-features = false }
+num-traits = "*"
+nalgebra = { git = "https://github.com/adamnemecek/nalgebra", branch="div2" }
+approx = "*"
 
-#[patch.crates-io]
-#alga = { git = "https://github.com/rustsim/alga", branch = "dev" }
+[patch.crates-io]
+alga = { git = "https://github.com/rustsim/alga", branch = "dev" }
