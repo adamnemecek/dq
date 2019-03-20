@@ -41,7 +41,7 @@ impl<N: Real> DualQuaternion<N> {
         (a + a).imag()
     }
 
-    /// Conjugate
+    /// Conjugate.
     #[inline]
     pub fn conjugate(self) -> Self {
         Self::new(self.re.conjugate(), self.du.conjugate())
@@ -316,16 +316,6 @@ impl<N: Real> Default for DualQuaternion<N> {
 
 // }
 
-// use std::hash::{Hash, Hasher};
-
-// impl<N: Real> Hash for DualQuaternion<N> {
-//     fn hash<H: Hasher>(&self, state: &mut H) {
-//         self.re.hash(state);
-//         self.du.hash(state);
-//     }
-// }
-
-
 impl<N: Real> Inv for DualQuaternion<N> {
     type Output = Self;
 
@@ -335,7 +325,6 @@ impl<N: Real> Inv for DualQuaternion<N> {
         self.conjugate() / self.magnitude()
     }
 }
-
 
 impl<N: Real + hash::Hash> hash::Hash for DualQuaternion<N> {
     fn hash<H: hash::Hasher>(&self, state: &mut H) {
@@ -465,7 +454,6 @@ impl<N: Real> Add<N> for DualQuaternion<N> {
 
 impl<N: Real> AddAssign<N> for DualQuaternion<N> {
     #[inline]
-
     fn add_assign(&mut self, other: N) {
         *self = *self + other
     }
@@ -517,10 +505,6 @@ impl<N: Real> DivAssign<N> for DualQuaternion<N> {
     fn div_assign(&mut self, other: N) {
         *self = *self / other
     }
-}
-
-impl<N: Real> DualQuaternion<N> {
-
 }
 
 // impl<N: Real> Signed for DualQuaternion<N> {
