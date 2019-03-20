@@ -1,7 +1,7 @@
 # dq
 Possibly most complete and correct implementation of dual quaternions.
 
-Implementation of dual quaternions uses [nalgebra](https://github.com/rustsim/nalgebra)  and is heavily inspired by [dual_num](https://github.com/novacrazy/dual_num).
+Implementation of dual quaternions uses [nalgebra](https://github.com/rustsim/nalgebra) and is heavily inspired by [dual_num](https://github.com/novacrazy/dual_num).
 
 # Notes
 * With `pow`, you can do 
@@ -22,7 +22,7 @@ https://idontgetoutmuch.wordpress.com/2013/10/13/backpropogation-is-just-steepes
 
 https://github.com/hoechp/ultracomplexmath/blob/954c19190e/src/util/hypercomplex/Dual.java
 
-note that trigonometry diverges at certain places from idontgetoutmuch as quaternions are non-commutative
+
 
 https://github.com/dpd3788/quatlib/blob/7b42455542edbc3b62df3ee20eb8c465d81f6ac0/cpp/include/quaternion.h
 
@@ -31,6 +31,9 @@ https://github.com/dpd3788/quatlib/blob/7b42455542edbc3b62df3ee20eb8c465d81f6ac0
 * homogenous matrix conversion
 
 * why doesn't a.pow(4.0).pow(1.0/4.0) == a? should it
+
+# Done
 * randomization
+* fixed trigonometry
 * pow -> slerp
 

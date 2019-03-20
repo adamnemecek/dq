@@ -71,7 +71,7 @@ impl<N: Real> DualQuaternion<N> {
 
     #[inline]
     pub fn normalize(&self) -> Self {
-        *self / self.magnitude().abs()
+        *self / self.magnitude()
     }
 
     #[inline]
@@ -267,6 +267,12 @@ impl<N: Real> From<Matrix4<N>> for DualQuaternion<N> {
     #[inline]
     fn from(m: Matrix4<N>) -> Self {
         // m
+        unimplemented!()
+    }
+}
+
+impl<N: Real> From<[N; 8]> for DualQuaternion<N> {
+    fn from(v: [N; 8]) -> Self {
         unimplemented!()
     }
 }
