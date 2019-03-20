@@ -2,9 +2,9 @@ use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, N
 use std::cmp::Ordering;
 
 pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
-use nalgebra::{Quaternion, Real, Vector3};
+pub use nalgebra::{Quaternion, Real, Vector3};
 
-use approx::{RelativeEq, AbsDiffEq};
+pub use approx::{RelativeEq, AbsDiffEq};
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -431,7 +431,7 @@ impl<N: Real> DualQuaternion<N> {
     /// cos(u, u') = (cos(u), -sin(u) * u')
     #[inline]
     pub fn cos(self) -> Self {
-        Self::new(self.re.cos(), (-self.re.sin() * self.du))
+        Self::new(self.re.cos(), self.re.sin().neg() * self.du)
     }
 
     /// Arccosinus.
