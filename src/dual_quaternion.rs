@@ -19,30 +19,32 @@ impl<N: Real> DualQuaternion<N> {
         Self { re, du }
     }
 
-    /// New dual quaternion from rotation and translation.
+    /// Create dual quaternion from rotation and translation.
     #[inline]
     pub fn from_rot(rot: Quaternion<N>, t: Vector3<N>) -> Self {
         Self::new(rot, Quaternion::<N>::from_imag(t).half() * rot)
     }
 
-    /// The real part of the quaternion.
+    /// The part of the dual quaternion that represents rotation.
     #[inline]
     pub fn rotation(self) -> Quaternion<N> {
         self.re
     }
 
+    /// The part of the dual quaternion that represents translation.
     #[inline]
     pub fn translation(self) -> Vector3<N> {
         let a = self.du * self.re.conjugate();
         (a + a).imag()
     }
 
-    /// needs attention
+    /// Conjugate
     #[inline]
     pub fn conjugate(self) -> Self {
         Self::new(self.re.conjugate(), self.du.conjugate())
     }
 
+    ///
     #[inline]
     pub fn quat_conjugate(&self) -> Self {
         Self::new(self.re.conjugate(), self.du.conjugate())
@@ -54,13 +56,13 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     #[inline]
-    pub fn magnitude(&self) -> N {
-        self.re.dot(&self.du)
+    pub fn dot(&self, other: &Self) -> N {
+        self.re.dot(&other.re)
     }
 
     #[inline]
-    pub fn dot(&self, other: &Self) -> N {
-        self.re.dot(&other.re)
+    pub fn magnitude(&self) -> N {
+        self.re.dot(&self.re)
     }
 
     #[inline]
@@ -83,22 +85,16 @@ impl<N: Real> DualQuaternion<N> {
         let du = (self.re.conjugate() * self.du) * self.scale();
         Self::new(self.re.ln(), du)
     }
-    #[inline]
-    pub fn exp(self) -> Self {
-        let r = self.re.exp();
-        Self::new(r, r * self.du)
-    }
-
-    // #[inline]
-    // pub fn ln(self) -> Self {
-    //     // let du = (self.re.conjugate() * self.du) * self.scale();
-        
-    //     Self::new(self.re.ln(), self.re.try_inverse().unwrap() * self.du)
-    // }
 
     #[inline]
     pub fn log(self, base: Self) -> Self {
         self.ln() / base.ln()
+    }
+
+    #[inline]
+    pub fn exp(self) -> Self {
+        let r = self.re.exp();
+        Self::new(r, r * self.du)
     }
 
     // pub fn sqrt(self) -> Self {
@@ -113,8 +109,13 @@ impl<N: Real> DualQuaternion<N> {
 
 impl<N: Real> From<Matrix4<N>> for DualQuaternion<N> {
     fn from(m: Matrix4<N>) -> Self {
+        // m
         unimplemented!()
     }
+}
+
+trait FromDualQuaternion : From<DualQuaternion<N>> {
+
 }
 
 impl<N: Real> Pow<N> for DualQuaternion<N> {
@@ -143,6 +144,7 @@ impl<N: Real> From<Quaternion<N>> for DualQuaternion<N> {
 }
 
 impl<N: Real> Zero for DualQuaternion<N> {
+    /// Additive identity.
     #[inline]
     fn zero() -> Self {
         Self::new(Quaternion::zero(), Quaternion::zero())
@@ -155,6 +157,7 @@ impl<N: Real> Zero for DualQuaternion<N> {
 }
 
 impl<N: Real> One for DualQuaternion<N> {
+    /// Multiplicative identity.
     #[inline]
     fn one() -> Self {
         Self::new(Quaternion::one(), Quaternion::zero())
@@ -172,12 +175,6 @@ impl<N: Real> Default for DualQuaternion<N> {
 
 // }
 
-// /// homogenous coordinates
-// ///
-// fn homo() {
-
-// }
-
 // use std::hash::{Hash, Hasher};
 
 // impl<N: Real> Hash for DualQuaternion<N> {
@@ -191,6 +188,7 @@ impl<N: Real> Default for DualQuaternion<N> {
 impl<N: Real> Inv for DualQuaternion<N> {
     type Output = Self;
 
+    /// Multiplicative inverse.
     #[inline]
     fn inv(self) -> Self::Output {
         self.conjugate() / self.magnitude()
@@ -284,7 +282,7 @@ impl<N: Real> Div<Self> for DualQuaternion<N> {
     fn div(self, other: Self) -> Self {
         Self::new(
             self.re.right_div(&other.re).unwrap(),
-            (self.du * other.re - self.re * other.du) * (other.re * other.re).try_inverse().unwrap(),
+            (self.du * other.re - self.re * other.du) * other.re.squared().try_inverse().unwrap(),
         )
     }
 }
@@ -495,7 +493,7 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     /// Hyperbolic arccosinus.
-    /// acosh(u, u') = (acosh(u), u' / (sqrt(u + 1) * sqrt(u - 1)))
+    /// acosh(u, u') = (acosh(u), u' / sqrt(u^2 - 1)))
     #[inline]
     pub fn acosh(self) -> Self {
         let one = Quaternion::<N>::one();
