@@ -6,7 +6,7 @@ authors = ["Adam Nemecek <adamnemecek@gmail.com>"]
 description = "A complete implementation of dual quaternions."
 
 keywords = [ "quaternion", "dual", "math", "lie-theory", "skinning" ]
-
+license = "BSD-3-Clause"
 
 [dependencies]
 num-traits = "*"
