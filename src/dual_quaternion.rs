@@ -195,7 +195,7 @@ impl<N: Real> DualQuaternion<N> {
     /// sinh(u, u') = (sinh(u), u' * cosh(u))
     #[inline]
     pub fn sinh(self) -> Self {
-        Self::new(self.re.sinh(), self.du * self.re.cosh() )
+        Self::new(self.re.sinh(), self.du * self.re.cosh())
     }
 
     /// Hyperbolic arcsinus.
@@ -263,7 +263,7 @@ impl<N: Real> Pow<N> for DualQuaternion<N> {
     type Output = Self;
 
     /// Due to nilpotence, going past, the interpolation range is 1-2.
-    /// you can do 
+    /// you can do
     #[inline]
     fn pow(self, t: N) -> Self::Output {
         (self.ln() * t).exp()
