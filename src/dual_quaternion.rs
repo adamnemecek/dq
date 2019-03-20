@@ -419,7 +419,7 @@ impl<N: Real> DualQuaternion<N> {
     /// cos(u, u') = (cos(u), -u'*sin(u))
     #[inline]
     pub fn cos(self) -> Self {
-        Self::new(self.re.cos(), (-self.du) * self.re.sin())
+        Self::new(self.re.cos(), self.du * (-self.re.sin()))
     }
 
     /// Arccosinus.
@@ -499,7 +499,8 @@ impl<N: Real> DualQuaternion<N> {
         let one = Quaternion::<N>::one();
         Self::new(
             self.re.acosh(),
-            self.du.right_div(&((self.re + one).sqrt() * (self.re - one).sqrt())).unwrap()
+            // self.du.right_div(&((self.re + one).sqrt() * (self.re - one).sqrt())).unwrap()
+            self.du.right_div(&(self.re.squared() - one).sqrt()).unwrap()
         )
     }
 
