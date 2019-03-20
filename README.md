@@ -24,11 +24,10 @@ note that trigonometry diverges at certain places from idontgetoutmuch as quater
 https://github.com/dpd3788/quatlib/blob/7b42455542edbc3b62df3ee20eb8c465d81f6ac0/cpp/include/quaternion.h
 
 ## TODO
-* trigonometry is a bit off
 * conjugates
 * homogenous matrix conversion
-* i'm trying to implement 
+
 * why doesn't a.pow(4.0).pow(1.0/4.0) == a? should it
 * randomization
 * pow -> slerp
-* matrix conversion
+

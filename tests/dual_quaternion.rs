@@ -30,18 +30,18 @@ fn test_exp() {
 }
 
 
-// #[test]
-// fn test_pow() {
+#[test]
+fn test_pow() {
 
-//     let input = dq();
-//     // let a = input.exp();
+    let input = dq();
+    // let a = input.exp();
     
+    let e = 1.5f64;
+    // let a = input * input * input;
+    let result = input.pow(e).pow(1.0/e);
     
-//     let a = input * input * input;
-//     let b = input.pow(3.0);
-    
-//     assert_relative_eq!(a, b, epsilon = 1.0e-7);
-// }
+    assert_relative_eq!(input, result, epsilon = 1.0e-7);
+}
 
 
 /// Trigonometry
