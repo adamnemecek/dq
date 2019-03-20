@@ -486,7 +486,7 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     /// Hyperbolic cosinus.
-    /// cosh(u, u') = (cosh(u), u' * sinh(u))
+    /// cosh(u, u') = (cosh(u), sinh(u) * u')
     #[inline]
     pub fn cosh(self) -> Self {
         Self::new(self.re.cosh(), self.re.sinh() * self.du)
@@ -499,13 +499,12 @@ impl<N: Real> DualQuaternion<N> {
         let one = Quaternion::<N>::one();
         Self::new(
             self.re.acosh(),
-            // self.du.right_div(&((self.re + one).sqrt() * (self.re - one).sqrt())).unwrap()
             self.du.right_div(&(self.re.squared() - one).sqrt()).unwrap()
         )
     }
 
     /// Hyperbolic tangent.
-    /// tanh(u, u') = (u, u' * (1 - u^2))
+    /// tanh(u, u') = (u, (1 - u^2) * u')
     #[inline]
     pub fn tanh(self) -> Self {
         let one = Quaternion::<N>::one();
