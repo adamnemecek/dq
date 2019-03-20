@@ -5,8 +5,6 @@ use nalgebra::Quaternion;
 extern crate dq;
 use dq::dual_quaternion::*;
 
-
-
 #[macro_use]
 extern crate approx;
 
@@ -29,19 +27,13 @@ fn test_exp() {
     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
-
 #[test]
 fn test_pow() {
-
     let input = dq();
-    
     let e = 1.5f64;
     let result = input.pow(e).pow(1.0/e);
-    
     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
-
-
 /// Trigonometry
 
 #[test]
@@ -86,6 +78,15 @@ fn test_tanh() {
     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
+#[test]
+fn test_conjugate() {
+    let a = dq();
+    let b = dq2();
+
+    let left = (a * b).conjugate();
+    let right = b.conjugate() * a.conjugate();
+    assert_relative_eq!(left, right, epsilon = 1.0e-7);
+}
 
 // #[test]
 // fn test_rotation() {

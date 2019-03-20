@@ -6,8 +6,8 @@ Implementation of dual quaternions uses [nalgebra](https://github.com/rustsim/na
 
 # Resources
 
-The trigonometric implementation differs slightly from what one might find online (e.g. [wikipedia](https://en.wikipedia.org/wiki/Automatic_differentiation#Automatic_differentiation_using_dual_numbers)). Quaternions form a non-commutative algebra and multiplications by `u'` should actually be in the other order. E.g. 
-`sin(u, u') = (sin(u), u'*cos(u))` should actually be `sin(u, u') = (sin(u), cos(u) * u')`.
+<!-- The trigonometric implementation differs slightly from what one might find online (e.g. [wikipedia](https://en.wikipedia.org/wiki/Automatic_differentiation#Automatic_differentiation_using_dual_numbers)). Quaternions form a non-commutative algebra and multiplications by `u'` should actually be in the other order. E.g. 
+`sin(u, u') = (sin(u), u'*cos(u))` should actually be `sin(u, u') = (sin(u), cos(u) * u')`. -->
 
 
 

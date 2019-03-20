@@ -383,7 +383,6 @@ impl<N: Real> DivAssign<N> for DualQuaternion<N> {
 
 impl<N: Real> DualQuaternion<N> {
 
-
     //    #[inline]
     //    fn cbrt(self) -> Self {
     //        let real = self.re.cbrt();
