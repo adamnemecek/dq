@@ -29,7 +29,7 @@ fn test_exp() {
 fn test_cos() {
     let input = dq();
     let output = input.cos().acos();
-    assert_relative_eq!(input, output);
+    assert_relative_eq!(input, output, epsilon = 1.0e-7);
 }
 
 // #[test]

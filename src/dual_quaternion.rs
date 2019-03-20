@@ -419,7 +419,7 @@ impl<N: Real> DualQuaternion<N> {
     /// cos(u, u') = (cos(u), -u'*sin(u))
     #[inline]
     pub fn cos(self) -> Self {
-        Self::new(self.re.cos(), self.du * (-self.re.sin()))
+        Self::new(self.re.cos(), (-self.re.sin() * self.du))
     }
 
     /// Arccosinus.
