@@ -401,10 +401,10 @@ impl<N: Real> DualQuaternion<N> {
     // }
 
     /// Sinus.
-    /// sin(u, u') = (sin(u), u'*cos(u))
+    /// sin(u, u') = (sin(u), cos(u) * u')
     #[inline]
     pub fn sin(self) -> Self {
-        Self::new(self.re.sin(), self.du * self.re.cos())
+        Self::new(self.re.sin(), self.re.cos() * self.du)
     }
 
     /// Arcsinus.
@@ -436,7 +436,7 @@ impl<N: Real> DualQuaternion<N> {
     pub fn tan(self) -> Self {
         let one = Quaternion::<N>::one();
         let t = self.re.tan();
-        Self::new(t, self.du * (t * t + one))
+        Self::new(t,(t * t + one) *  self.du)
     }
 
     /// Arctangent.
@@ -489,7 +489,7 @@ impl<N: Real> DualQuaternion<N> {
     /// cosh(u, u') = (cosh(u), u' * sinh(u))
     #[inline]
     pub fn cosh(self) -> Self {
-        Self::new(self.re.cosh(), self.du * self.re.sinh())
+        Self::new(self.re.cosh(), self.re.sinh() * self.du)
     }
 
     /// Hyperbolic arccosinus.

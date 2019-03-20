@@ -32,13 +32,19 @@ fn test_cos() {
     assert_relative_eq!(input, output, epsilon = 1.0e-7);
 }
 
-// #[test]
-// fn test_sin() {
-//     let input = dq();
-//     let output = input.cos().acos();
-//     assert_relative_eq!(input, output);
-// }
+#[test]
+fn test_sin() {
+    let input = dq();
+    let output = input.sin().asin();
+    assert_relative_eq!(input, output, epsilon = 1.0e-7);
+}
 
+#[test]
+fn test_tan() {
+    let input = dq();
+    let output = input.tan().atan();
+    assert_relative_eq!(input, output, epsilon = 1.0e-7);
+}
 
 // #[test]
 // fn test_cosh() {
@@ -47,12 +53,6 @@ fn test_cos() {
 //     assert_relative_eq!(input, output, epsilon = 1.0e-7);
 // }
 
-// #[test]
-// fn test_tan() {
-//     let input = dq();
-//     let output = input.tan().atan();
-//     assert_relative_eq!(input, output, epsilon = 1.0e-7);
-// }
 
 // #[test]
 // fn test_qtan() {
