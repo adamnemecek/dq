@@ -7,7 +7,6 @@ use nalgebra::Quaternion;
 
 // extern crate num_traits;
 // use num_traits::Inv;
-
 // #[macro_use]
 // extern crate approx;
 
@@ -23,15 +22,13 @@ fn dq2() -> DualQuaternion<f64> {
     DualQuaternion::new(re, du)
 }
 
-
 fn test_slerp() {
     let a = dq();
     let b = dq2();
-    let result = a.slerp(b, 0.5);
+    let result = a.slerp(b, 1.5);
     // assert_relative_eq!(input, result, epsilon = 1.0e-7);
     println!("{}", result);
 }
-
 
 // fn test_qxp() {
 //     let input = dq();
@@ -40,8 +37,6 @@ fn test_slerp() {
     
 //     assert_relative_eq!(input, result);
 // }
-
-
 
 // fn main() {
 //     // let re = Quaternion::new(1.0, 2.0, 3.0, 4.0);
