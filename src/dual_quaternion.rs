@@ -544,7 +544,8 @@ impl<N: Real> DivAssign<N> for DualQuaternion<N> {
 
 
 impl<N: Real> Distribution<DualQuaternion<N>> for Standard
-where Standard: Distribution<N>
+where
+    Standard: Distribution<N>,
 {
     #[inline]
     fn sample<'a, R: Rng + ?Sized>(&self, rng: &'a mut R) -> DualQuaternion<N> {
