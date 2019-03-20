@@ -53,11 +53,17 @@ fn test_cosh() {
     assert_relative_eq!(input, output, epsilon = 1.0e-7);
 }
 
-
 #[test]
 fn test_sinh() {
     let input = dq();
     let output = input.sinh().asinh();
+    assert_relative_eq!(input, output, epsilon = 1.0e-7);
+}
+
+#[test]
+fn test_tanh() {
+    let input = dq();
+    let output = input.tanh().atanh();
     assert_relative_eq!(input, output, epsilon = 1.0e-7);
 }
 // #[test]
