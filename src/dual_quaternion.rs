@@ -290,7 +290,7 @@ impl<N: Real> Div<Self> for DualQuaternion<N> {
     type Output = Self;
     fn div(self, other: Self) -> Self {
         Self::new(
-            self.re.right_div(&other.re).unwrap(),
+            self.re.left_div(&other.re).unwrap(),
             (self.du * other.re - self.re * other.du) * (other.re * other.re).try_inverse().unwrap(),
         )
     }
@@ -427,7 +427,7 @@ impl<N: Real> DualQuaternion<N> {
         Self::new(
             self.re.asin(),
             self.du
-                .right_div(&(one - self.re.squared()).sqrt())
+                .left_div(&(one - self.re.squared()).sqrt())
                 .unwrap(),
         )
     }
@@ -447,7 +447,7 @@ impl<N: Real> DualQuaternion<N> {
         Self::new(
             self.re.acos(),
             (-self.du)
-                .right_div(&(one - self.re.squared()).sqrt())
+                .left_div(&(one - self.re.squared()).sqrt())
                 .unwrap(),
         )
     }
@@ -469,7 +469,7 @@ impl<N: Real> DualQuaternion<N> {
         let one = Quaternion::<N>::one();
         Self::new(
             self.re.atan(),
-            self.du.right_div(&(self.re.squared() + one)).unwrap(),
+            self.du.left_div(&(self.re.squared() + one)).unwrap(),
         )
     }
 
@@ -503,7 +503,7 @@ impl<N: Real> DualQuaternion<N> {
         Self::new(
             self.re.asinh(),
             self.du
-                .right_div(&(self.re.squared() + one).sqrt())
+                .left_div(&(self.re.squared() + one).sqrt())
                 .unwrap(),
         )
     }
@@ -523,7 +523,7 @@ impl<N: Real> DualQuaternion<N> {
         Self::new(
             self.re.acosh(),
             self.du
-                .right_div(&(self.re.squared() - one).sqrt())
+                .left_div(&(self.re.squared() - one).sqrt())
                 .unwrap(),
         )
     }
@@ -544,7 +544,7 @@ impl<N: Real> DualQuaternion<N> {
         let one = Quaternion::<N>::one();
         Self::new(
             self.re.atanh(),
-            self.du.right_div(&(one - self.re.squared())).unwrap(),
+            self.du.left_div(&(one - self.re.squared())).unwrap(),
         )
     }
 }
