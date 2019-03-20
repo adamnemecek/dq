@@ -1,9 +1,9 @@
 
-// extern crate dq;
-// use dq::dual_quaternion::DualQuaternion;
+extern crate dq;
+use dq::dual_quaternion::DualQuaternion;
 
-// extern crate nalgebra;
-// use nalgebra::Quaternion;
+extern crate nalgebra;
+use nalgebra::Quaternion;
 
 // extern crate num_traits;
 // use num_traits::Inv;
@@ -60,6 +60,19 @@
 //     test_slerp();
 // }
 
-fn main() {
 
+
+
+fn dq() -> DualQuaternion<f64> {
+    let re = Quaternion::new(0.1, 0.2, 0.1, 0.2);
+    let du = Quaternion::new(0.3, 0.1, 0.1, 0.2);
+    DualQuaternion::new(re, du)
 }
+
+
+fn main() {
+    let input = dq();
+    println!("{}", input.powf(1.5).powf(1.0/1.5));
+}
+
+

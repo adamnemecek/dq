@@ -384,7 +384,14 @@ impl<N: Real> DivAssign<N> for DualQuaternion<N> {
 }
 
 impl<N: Real> DualQuaternion<N> {
-    // #[inline]
+    #[inline]
+    pub fn powf(self, n: N) -> Self {
+        // let nf = <N as NumCast>::from(n).expect("Invalid value");
+
+        Self::new(self.re.powf(n), self.re.powf(n - N::one()) * n * self.du)
+    }
+
+        // #[inline]
     // fn powf(self, n: i32) -> Self {
     //     let nf = <T as NumCast>::from(n).expect("Invalid value");
 
