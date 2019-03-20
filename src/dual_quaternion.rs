@@ -136,12 +136,6 @@ impl<N: Real> From<Quaternion<N>> for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> From<DualQuaternion<N>> for Screw<N> {
-    fn from(s: DualQuaternion<N>) -> Self {
-        unimplemented!()
-    }
-}
-
 impl<N: Real> Zero for DualQuaternion<N> {
     #[inline]
     fn zero() -> Self {

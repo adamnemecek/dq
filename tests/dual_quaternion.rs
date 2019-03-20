@@ -14,13 +14,18 @@ fn dq() -> DualQuaternion<f64> {
     DualQuaternion::new(re, du)
 }
 
+fn dq2() -> DualQuaternion<f64> {
+    let re = Quaternion::new(0.2, 0.3, 0.4, 0.1);
+    let du = Quaternion::new(0.2, 0.1, 0.3, 0.4);
+    DualQuaternion::new(re, du)
+}
 
 
 #[test]
 fn test_exp() {
     let input = dq();
-    let output = input.exp().ln();
-    assert_relative_eq!(input, output);
+    let result = input.exp().ln();
+    assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
 /// Trigonometry
@@ -28,49 +33,51 @@ fn test_exp() {
 #[test]
 fn test_cos() {
     let input = dq();
-    let output = input.cos().acos();
-    assert_relative_eq!(input, output, epsilon = 1.0e-7);
+    let result = input.cos().acos();
+    assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
 #[test]
 fn test_sin() {
     let input = dq();
-    let output = input.sin().asin();
-    assert_relative_eq!(input, output, epsilon = 1.0e-7);
+    let result = input.sin().asin();
+    assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
 #[test]
 fn test_tan() {
     let input = dq();
-    let output = input.tan().atan();
-    assert_relative_eq!(input, output, epsilon = 1.0e-7);
+    let result = input.tan().atan();
+    assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
 #[test]
 fn test_cosh() {
     let input = dq();
-    let output = input.cosh().acosh();
-    assert_relative_eq!(input, output, epsilon = 1.0e-7);
+    let result = input.cosh().acosh();
+    assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
 #[test]
 fn test_sinh() {
     let input = dq();
-    let output = input.sinh().asinh();
-    assert_relative_eq!(input, output, epsilon = 1.0e-7);
+    let result = input.sinh().asinh();
+    assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
 #[test]
 fn test_tanh() {
     let input = dq();
-    let output = input.tanh().atanh();
-    assert_relative_eq!(input, output, epsilon = 1.0e-7);
+    let result = input.tanh().atanh();
+    assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
+
 // #[test]
-// fn test_qtan() {
-//     let input = dq().re;
-//     let output = input.tan().atan();
-//     assert_relative_eq!(input, output, epsilon = 1.0e-7);
+// fn test_slerp() {
+//     let a = dq();
+//     let b = dq2();
+//     let result = input.tanh().atanh();
+//     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 // }
 
 

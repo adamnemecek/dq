@@ -21,3 +21,9 @@ impl<N: Real> Default for Screw<N> {
         unimplemented!()
     }
 }
+
+// impl<N: Real> From<DualQuaternion<N>> for Screw<N> {
+//     fn from(s: DualQuaternion<N>) -> Self {
+//         unimplemented!()
+//     }
+// }
