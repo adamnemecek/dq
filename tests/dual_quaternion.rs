@@ -46,12 +46,12 @@ fn test_tan() {
     assert_relative_eq!(input, output, epsilon = 1.0e-7);
 }
 
-// #[test]
-// fn test_cosh() {
-//     let input = dq();
-//     let output = input.cosh().acosh();
-//     assert_relative_eq!(input, output, epsilon = 1.0e-7);
-// }
+#[test]
+fn test_cosh() {
+    let input = dq();
+    let output = input.cosh().acosh();
+    assert_relative_eq!(input, output, epsilon = 1.0e-7);
+}
 
 
 // #[test]

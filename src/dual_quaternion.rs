@@ -431,7 +431,7 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     /// Tangent.
-    /// tan(u, u') = (tan(u), u' * (tan(u)^2 + 1))
+    /// tan(u, u') = (tan(u), (tan(u)^2 + 1) * u')
     #[inline]
     pub fn tan(self) -> Self {
         let one = Quaternion::<N>::one();
