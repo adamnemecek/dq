@@ -1,4 +1,5 @@
 # dq
+Possibly most complete and correct implementation of dual quaternions.
 
 Implementation of dual quaternions uses [nalgebra](https://github.com/rustsim/nalgebra)  and is heavily inspired by [dual_num](https://github.com/novacrazy/dual_num).
 

@@ -129,6 +129,7 @@ impl<N: Real> From<Matrix4<N>> for DualQuaternion<N> {
 impl<N: Real> Pow<N> for DualQuaternion<N> {
     type Output = Self;
 
+    /// Due to nilpotence, going past 
     #[inline]
     fn pow(self, t: N) -> Self::Output {
         (self.ln() * t).exp()
@@ -381,20 +382,7 @@ impl<N: Real> DivAssign<N> for DualQuaternion<N> {
 }
 
 impl<N: Real> DualQuaternion<N> {
-    /// not sure
-    #[inline]
-    pub fn powf(self, n: N) -> Self {
-        // let nf = <N as NumCast>::from(n).expect("Invalid value");
 
-        Self::new(self.re.powf(n), self.re.powf(n - N::one()) * n * self.du)
-    }
-
-        // #[inline]
-    // fn powf(self, n: i32) -> Self {
-    //     let nf = <T as NumCast>::from(n).expect("Invalid value");
-
-    //     Self::new(self.re.powf(n), nf * self.real().powf(n - 1) * self.dual())
-    // }
 
     //    #[inline]
     //    fn cbrt(self) -> Self {
