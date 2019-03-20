@@ -44,7 +44,6 @@ fn test_exp() {
 // }
 
 
-
 /// Trigonometry
 
 #[test]
@@ -88,10 +87,6 @@ fn test_tanh() {
     let result = input.tanh().atanh();
     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
-
-
-
-
 
 
 // #[test]

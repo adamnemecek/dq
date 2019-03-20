@@ -1,6 +1,9 @@
 # dq
 
-Implementation of dual quaternions based on [nalgebra](https://github.com/rustsim/nalgebra) & [dual_num](https://github.com/novacrazy/dual_num).
+Implementation of dual quaternions uses [nalgebra](https://github.com/rustsim/nalgebra)  and is heavily inspired by [dual_num](https://github.com/novacrazy/dual_num).
+
+
+# Resources
 
 The trigonometric implementation differs slightly from what one might find online (e.g. [wikipedia](https://en.wikipedia.org/wiki/Automatic_differentiation#Automatic_differentiation_using_dual_numbers)). Quaternions form a non-commutative algebra and multiplications by `u'` should actually be in the other order. E.g. 
 `sin(u, u') = (sin(u), u'*cos(u))` should actually be `sin(u, u') = (sin(u), cos(u) * u')`.
@@ -21,3 +24,6 @@ note that trigonometry diverges at certain places from idontgetoutmuch as quater
 ## TODO
 * trigonometry is a bit off
 * conjugates
+* homogenous matrix conversion
+* i'm trying to implement 
+* why doesn't a.pow(4.0).pow(1.0/4.0) == a? should it
