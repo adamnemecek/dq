@@ -31,7 +31,7 @@ fn test_exp() {
 fn test_pow() {
     let input = dq();
     let e = 1.5f64;
-    let result = input.pow(e).pow(1.0/e);
+    let result = input.pow(e).pow(1.0 / e);
     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
@@ -39,7 +39,7 @@ fn test_pow() {
 fn test_pow2() {
     let input = dq();
     let e = 9.0f64;
-    let result = input.pow(1.0/e).pow(e);
+    let result = input.pow(1.0 / e).pow(e);
     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
@@ -78,7 +78,6 @@ fn test_inv() {
 }
 
 /// Trigonometry
-
 #[test]
 fn test_cos() {
     let input = dq();
@@ -124,5 +123,5 @@ fn test_tanh() {
 
 // #[test]
 // fn test_rotation() {
-    
+
 // }
