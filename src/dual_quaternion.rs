@@ -1,6 +1,6 @@
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
 use std::cmp::Ordering;
-pub use std::hash;
+pub use std::hash::{Hash, Hasher};
 
 pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
 pub use nalgebra::{Quaternion, Real, Vector3, Matrix4};
@@ -109,7 +109,6 @@ impl<N: Real> DualQuaternion<N> {
     pub fn slerp(self, other: Self, t: N) -> Self {
         (other * self.conjugate()).pow(t) * self
     }
-
 
     //    #[inline]
     //    fn cbrt(self) -> Self {
@@ -328,14 +327,16 @@ impl<N: Real> Inv for DualQuaternion<N> {
     }
 }
 
-impl<N: Real + hash::Hash> hash::Hash for DualQuaternion<N> {
+impl<N: Real + Hash> Hash for DualQuaternion<N> {
+
     #[inline]
-    fn hash<H: hash::Hasher>(&self, state: &mut H) {
+    fn hash<H: Hasher>(&self, state: &mut H) {
         self.re.hash(state)
     }
 }
 
 impl<N: Real> PartialEq for DualQuaternion<N> {
+
     #[inline]
     fn eq(&self, other: &Self) -> bool {
         self.re.eq(&other.re) && self.du.eq(&other.du)
