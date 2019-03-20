@@ -5,7 +5,7 @@ authors = ["Adam Nemecek <adamnemecek@gmail.com>"]
 
 description = "A complete implementation of dual quaternions."
 
-keywords = [ "quaternion", "dual", "math", "lie theory", "skinning" ]
+keywords = [ "quaternion", "dual", "math", "lie-theory", "skinning" ]
 
 
 [dependencies]
