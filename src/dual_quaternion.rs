@@ -2,7 +2,7 @@ use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, N
 use std::cmp::Ordering;
 
 pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
-pub use nalgebra::{Quaternion, Real, Vector3};
+pub use nalgebra::{Quaternion, Real, Vector3, Matrix4};
 
 pub use approx::{RelativeEq, AbsDiffEq};
 
@@ -114,13 +114,15 @@ impl<N: Real> DualQuaternion<N> {
     //     (self.ln().half().exp()
     // }
 
-    //    pub fn lerp(self, other: Self, t: T) -> Self {
-    //        todo()
-    //    }
-
     #[inline]
     pub fn slerp(self, other: Self, t: N) -> Self {
         (other * self.conjugate()).pow(t) * self
+    }
+}
+
+impl<N: Real> From<Matrix4<N>> for DualQuaternion<N> {
+    fn from(m: Matrix4<N>) -> Self {
+        unimplemented!()
     }
 }
 
