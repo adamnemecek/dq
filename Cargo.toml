@@ -9,10 +9,12 @@ keywords = [ "quaternion", "dual", "math", "lie-theory", "skinning" ]
 license = "BSD-3-Clause"
 
 [dependencies]
-num-traits = "*"
+#num-traits = "*"
+num-traits     = { version = "0.2", default-features = false }
 #nalgebra = { git = "https://github.com/adamnemecek/nalgebra", branch="div2" }
-nalgebra = "*"
-approx = "*"
+nalgebra = "0.17.3"
+#approx = "*"
+approx         = { version = "0.3", default-features = false }
 
 #[patch.crates-io]
 #alga = { git = "https://github.com/rustsim/alga", branch = "dev" }
