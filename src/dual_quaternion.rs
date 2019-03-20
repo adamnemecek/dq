@@ -474,7 +474,7 @@ impl<N: Real> DualQuaternion<N> {
     /// sinh(u, u') = (sinh(u), u' * cosh(u))
     #[inline]
     pub fn sinh(self) -> Self {
-        Self::new(self.re.sinh(), self.du * self.re.cosh())
+        Self::new(self.re.sinh(), self.re.cosh()* self.du)
     }
 
     /// Hyperbolic arcsinus.
