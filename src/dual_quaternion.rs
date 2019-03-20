@@ -121,6 +121,7 @@ impl<N: Real> Pow<N> for DualQuaternion<N> {
     type Output = Self;
 
     /// Due to nilpotence, going past, the interpolation range is 1-2.
+    /// you can do 
     #[inline]
     fn pow(self, t: N) -> Self::Output {
         (self.ln() * t).exp()
