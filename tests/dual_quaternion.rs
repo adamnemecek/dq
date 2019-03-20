@@ -43,6 +43,37 @@ fn test_pow2() {
     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
+#[test]
+fn test_conjugate() {
+    let a = dq();
+    let b = dq2();
+
+    let left = (a * b).conjugate();
+    let right = b.conjugate() * a.conjugate();
+    assert_relative_eq!(left, right, epsilon = 1.0e-7);
+}
+
+
+// #[test]
+// fn test_slerp() {
+//     let a = dq();
+//     let b = dq2();
+
+//     let c = a.slerp(&b, 1.5f64);
+
+//     // let left = (a * b).conjugate();
+//     // let right = b.conjugate() * a.conjugate();
+//     // assert_relative_eq!(left, right, epsilon = 1.0e-7);
+// }
+
+#[test]
+fn test_inv() {
+    let input = dq();
+
+    let result = input.inv().inv();
+    assert_relative_eq!(input, result, epsilon = 1.0e-7);
+}
+
 /// Trigonometry
 
 #[test]
@@ -87,15 +118,6 @@ fn test_tanh() {
     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
-#[test]
-fn test_conjugate() {
-    let a = dq();
-    let b = dq2();
-
-    let left = (a * b).conjugate();
-    let right = b.conjugate() * a.conjugate();
-    assert_relative_eq!(left, right, epsilon = 1.0e-7);
-}
 
 // #[test]
 // fn test_rotation() {

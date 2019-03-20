@@ -3,6 +3,10 @@ Possibly most complete and correct implementation of dual quaternions.
 
 Implementation of dual quaternions uses [nalgebra](https://github.com/rustsim/nalgebra)  and is heavily inspired by [dual_num](https://github.com/novacrazy/dual_num).
 
+# Notes
+* With `pow`, you can do 
+* you can do ln().exp() but exp().ln() doens't work due to nilpotence.
+* With dual numbers
 
 # Resources
 
