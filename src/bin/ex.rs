@@ -72,7 +72,7 @@ fn dq() -> DualQuaternion<f64> {
 
 fn main() {
     let input = dq();
-    println!("{}", input.powf(1.5).powf(1.0/1.5));
+    // println!("{}", input.pow(1.5).pow(1.0/1.5));
 }
 
 
