@@ -176,7 +176,7 @@ impl<N: Real> DualQuaternion<N> {
     }
 
     /// Arctangent.
-    /// atan(u, u') = (atan(u), u' / sqrt(u^2 + 1))
+    /// atan(u, u') = (atan(u), u' / (u^2 + 1))
     #[inline]
     pub fn atan(self) -> Self {
         let one = Quaternion::<N>::one();
