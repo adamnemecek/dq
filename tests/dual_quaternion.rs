@@ -30,18 +30,18 @@ fn test_exp() {
 }
 
 
-// #[test]
-// fn test_pow() {
+#[test]
+fn test_pow() {
 
-//     let input = dq();
-//     let a = input.exp();
-//     let b = input.exp_v2();
+    let input = dq();
+    // let a = input.exp();
     
-//     // let a = input * input;
-//     // let b = input.pow(2.0);
     
-//     assert_relative_eq!(a, b, epsilon = 1.0e-7);
-// }
+    let a = input * input * input;
+    let b = input.pow(3.0);
+    
+    assert_relative_eq!(a, b, epsilon = 1.0e-7);
+}
 
 
 
