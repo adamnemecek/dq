@@ -17,35 +17,10 @@ fn dq() -> DualQuaternion<f64> {
     DualQuaternion::<f64>::new(re, du)
 }
 
-fn test_sin() {
-    let dq = dq();
-    let r = dq.sin().asin();
-    println!("{:?}", r);
-}
-
-fn test_sinh() {
-    let dq = dq();
-    let r = dq.sinh().asinh();
-    println!("{:?}", r);
-}
-
-fn test_cos() {
-    let dq = dq();
-    let r = dq.cos().acos();
-    println!("{:?}", r);
-}
-
-
-fn test_cosh() {
-    let dq = dq();
-    let r = dq.cosh().acosh();
-    println!("{:?}", r);
-}
-
-fn test_tan() {
-    let dq = dq();
-    let r = dq.tan().atan();
-    println!("{:?}", r);
+fn dq2() -> DualQuaternion<f64> {
+    let re = Quaternion::new(0.2, 0.3, 0.4, 0.1);
+    let du = Quaternion::new(0.2, 0.1, 0.3, 0.4);
+    DualQuaternion::new(re, du)
 }
 
 fn test_inv() {
@@ -55,12 +30,14 @@ fn test_inv() {
     println!("{:?}", r);
 }
 
-fn test_exp() {
-    let dq = dq();
-    let r = dq.exp().ln();
-    println!("{:?}", r);
-
+fn test_slerp() {
+    let a = dq();
+    let b = dq2();
+    let result = a.slerp(b, 0.5);
+    // assert_relative_eq!(input, result, epsilon = 1.0e-7);
+    println!("{}", result);
 }
+
 
 fn test_qxp() {
     let input = dq();
@@ -80,4 +57,5 @@ fn main() {
     // let input = dq();
     // println!("{}", input.exp());
     // test_sin();
+    test_slerp();
 }

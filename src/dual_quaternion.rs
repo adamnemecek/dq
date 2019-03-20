@@ -88,6 +88,13 @@ impl<N: Real> DualQuaternion<N> {
         Self::new(r, r * self.du)
     }
 
+    // #[inline]
+    // pub fn exp_v2(self) -> Self {
+    //     let one = Quaternion::<N>::one();
+    //     let r = self.re.exp();
+    //     Self::new(one, self.du) * Self::from(r)
+    // }
+
     #[inline]
     pub fn ln(self) -> Self {
         let du = (self.re.conjugate() * self.du) * self.scale();

@@ -3,7 +3,9 @@ extern crate nalgebra;
 use nalgebra::Quaternion;
 
 extern crate dual_quaternion;
-use dual_quaternion::dual_quaternion::{DualQuaternion};
+use dual_quaternion::dual_quaternion::*;
+
+
 
 #[macro_use]
 extern crate approx;
@@ -20,13 +22,28 @@ fn dq2() -> DualQuaternion<f64> {
     DualQuaternion::new(re, du)
 }
 
-
 #[test]
 fn test_exp() {
     let input = dq();
     let result = input.exp().ln();
     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
+
+
+// #[test]
+// fn test_pow() {
+
+//     let input = dq();
+//     let a = input.exp();
+//     let b = input.exp_v2();
+    
+//     // let a = input * input;
+//     // let b = input.pow(2.0);
+    
+//     assert_relative_eq!(a, b, epsilon = 1.0e-7);
+// }
+
+
 
 /// Trigonometry
 
@@ -72,13 +89,8 @@ fn test_tanh() {
     assert_relative_eq!(input, result, epsilon = 1.0e-7);
 }
 
-// #[test]
-// fn test_slerp() {
-//     let a = dq();
-//     let b = dq2();
-//     let result = input.tanh().atanh();
-//     assert_relative_eq!(input, result, epsilon = 1.0e-7);
-// }
+
+
 
 
 
