@@ -1,5 +1,6 @@
 [package]
 name = "dual_quaternion"
+description = "A complete implementation of dual quaternions."
 version = "0.1.0"
 authors = ["Adam Nemecek <adamnemecek@gmail.com>"]
 edition = "2018"
