@@ -104,7 +104,6 @@ impl<N: Real> DualQuaternion<N> {
     //     (self.ln().half().exp()
     // }
 
-
 //    pub fn lerp(self, other: Self, t: T) -> Self {
 //        todo()
 //    }
@@ -323,6 +322,7 @@ impl<N: Real> Add<N> for DualQuaternion<N> {
 
 impl<N: Real> AddAssign<N> for DualQuaternion<N> {
     #[inline]
+
     fn add_assign(&mut self, other: N) {
         *self = *self + other
     }
@@ -330,6 +330,7 @@ impl<N: Real> AddAssign<N> for DualQuaternion<N> {
 
 impl<N: Real> Sub<N> for DualQuaternion<N> {
    type Output = Self;
+
     #[inline]
     fn sub(self, other: N) -> Self {
         self - Self::from(other)
@@ -345,6 +346,7 @@ impl<N: Real> SubAssign<N> for DualQuaternion<N> {
 
 impl<N: Real> Mul<N> for DualQuaternion<N> {
     type Output = Self;
+
     #[inline]
     fn mul(self, other: N) -> Self {
         self * Self::from(other)
@@ -360,6 +362,7 @@ impl<N: Real> MulAssign<N> for DualQuaternion<N> {
 
 impl<N: Real> Div<N> for DualQuaternion<N> {
     type Output = Self;
+
     #[inline]
     fn div(self, other: N) -> Self {
         self / Self::from(other)

@@ -14,14 +14,22 @@ fn dq() -> DualQuaternion<f64> {
     DualQuaternion::new(re, du)
 }
 
+// #[test]
+// fn test_cos() {
+//     let input = dq();
+//     let output = input.cos().acos();
+//     assert_relative_eq!(input, output);
+// }
+
 #[test]
-fn test_sin() {
+fn test_exp() {
     let input = dq();
-    let output = input.cos().acos();
+    let output = input.exp().ln();
     assert_relative_eq!(input, output);
 }
 
-#[test]
-fn test_rotation() {
+
+// #[test]
+// fn test_rotation() {
     
-}
+// }
