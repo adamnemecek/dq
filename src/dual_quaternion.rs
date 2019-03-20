@@ -7,7 +7,7 @@ pub use nalgebra::{Quaternion, Real, Vector3, Matrix4};
 
 pub use approx::{RelativeEq, AbsDiffEq};
 
-use rand::distributions::{Distribution, OpenClosed01, Standard};
+use rand::distributions::{Distribution, Standard};
 use rand::Rng;
 
 #[repr(C)]
