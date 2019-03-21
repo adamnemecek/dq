@@ -22,21 +22,6 @@ fn dq2() -> DualQuaternion<f64> {
     DualQuaternion::new(re, du)
 }
 
-fn test_slerp() {
-    let a = dq();
-    let b = dq2();
-    let result = a.slerp(b, 1.5);
-    // assert_relative_eq!(input, result, epsilon = 1.0e-7);
-    println!("{}", result);
-}
-
-// fn test_qxp() {
-//     let input = dq();
-//     let result = input.exp().ln();
-//     // println!("{}", result);
-    
-//     assert_relative_eq!(input, result);
-// }
 
 // fn main() {
 //     // let re = Quaternion::new(1.0, 2.0, 3.0, 4.0);
@@ -51,7 +36,7 @@ fn test_slerp() {
 
 fn main() {
     // let input = dq();
-    test_slerp();
+    // test_slerp();
     // println!("{}", input.pow(1.5).pow(1.0/1.5));
 }
 
