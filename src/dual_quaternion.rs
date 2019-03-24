@@ -110,6 +110,12 @@ impl<N: Real> DualQuaternion<N> {
         (other * self.conjugate()).pow(t) * self
     }
 
+    #[inline]
+    pub fn to_homogeneous(&self) -> Matrix4<N> {
+        unimplemented!()
+        // self.to_rotation_matrix().to_homogeneous()
+    }
+
     //    #[inline]
     //    fn cbrt(self) -> Self {
     //        let real = self.re.cbrt();
