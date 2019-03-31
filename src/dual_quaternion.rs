@@ -3,7 +3,7 @@ use std::cmp::Ordering;
 pub use std::hash::{Hash, Hasher};
 
 pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
-pub use nalgebra::{Quaternion, Real, Vector3, Matrix4};
+pub use nalgebra::{Quaternion, RealField, Vector3, Matrix4};
 
 pub use approx::{RelativeEq, AbsDiffEq};
 
@@ -12,12 +12,12 @@ use rand::Rng;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub struct DualQuaternion<N: Real> {
+pub struct DualQuaternion<N: RealField> {
     pub re: Quaternion<N>,
     pub du: Quaternion<N>,
 }
 
-impl<N: Real> DualQuaternion<N> {
+impl<N: RealField> DualQuaternion<N> {
     #[inline]
     pub fn new(re: Quaternion<N>, du: Quaternion<N>) -> Self {
         Self { re, du }
@@ -258,7 +258,7 @@ impl<N: Real> DualQuaternion<N> {
     }
 }
 
-impl<N: Real> Pow<N> for DualQuaternion<N> {
+impl<N: RealField> Pow<N> for DualQuaternion<N> {
     type Output = Self;
 
     /// Due to nilpotence, going past, the interpolation range is 1-2.
@@ -269,7 +269,7 @@ impl<N: Real> Pow<N> for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> From<Matrix4<N>> for DualQuaternion<N> {
+impl<N: RealField> From<Matrix4<N>> for DualQuaternion<N> {
     #[inline]
     fn from(m: Matrix4<N>) -> Self {
         // m
@@ -277,27 +277,27 @@ impl<N: Real> From<Matrix4<N>> for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> From<[N; 8]> for DualQuaternion<N> {
+impl<N: RealField> From<[N; 8]> for DualQuaternion<N> {
     fn from(v: [N; 8]) -> Self {
         unimplemented!()
     }
 }
 
-impl<N: Real> From<N> for DualQuaternion<N> {
+impl<N: RealField> From<N> for DualQuaternion<N> {
     #[inline]
     fn from(v: N) -> Self {
         Self::new(Quaternion::from_real(v), Quaternion::zero())
     }
 }
 
-impl<N: Real> From<Quaternion<N>> for DualQuaternion<N> {
+impl<N: RealField> From<Quaternion<N>> for DualQuaternion<N> {
     #[inline]
     fn from(re: Quaternion<N>) -> Self {
         Self::new(re, Quaternion::zero())
     }
 }
 
-impl<N: Real> Zero for DualQuaternion<N> {
+impl<N: RealField> Zero for DualQuaternion<N> {
     /// Additive identity.
     #[inline]
     fn zero() -> Self {
@@ -310,7 +310,7 @@ impl<N: Real> Zero for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> One for DualQuaternion<N> {
+impl<N: RealField> One for DualQuaternion<N> {
     /// Multiplicative identity.
     #[inline]
     fn one() -> Self {
@@ -318,18 +318,18 @@ impl<N: Real> One for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> Default for DualQuaternion<N> {
+impl<N: RealField> Default for DualQuaternion<N> {
     #[inline]
     fn default() -> Self {
         Self::zero()
     }
 }
 
-// impl<N: Real> Signed {
+// impl<N: RealField> Signed {
 
 // }
 
-impl<N: Real> Inv for DualQuaternion<N> {
+impl<N: RealField> Inv for DualQuaternion<N> {
     type Output = Self;
 
     /// Multiplicative inverse.
@@ -339,7 +339,7 @@ impl<N: Real> Inv for DualQuaternion<N> {
     }
 }
 
-impl<N: Real + Hash> Hash for DualQuaternion<N> {
+impl<N: RealField + Hash> Hash for DualQuaternion<N> {
 
     #[inline]
     fn hash<H: Hasher>(&self, state: &mut H) {
@@ -347,7 +347,7 @@ impl<N: Real + Hash> Hash for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> PartialEq for DualQuaternion<N> {
+impl<N: RealField> PartialEq for DualQuaternion<N> {
 
     #[inline]
     fn eq(&self, other: &Self) -> bool {
@@ -355,7 +355,7 @@ impl<N: Real> PartialEq for DualQuaternion<N> {
     }
 }
 
-impl<N: Real + AbsDiffEq<Epsilon = N>> AbsDiffEq for DualQuaternion<N> {
+impl<N: RealField + AbsDiffEq<Epsilon = N>> AbsDiffEq for DualQuaternion<N> {
     type Epsilon = N;
 
     #[inline]
@@ -369,7 +369,7 @@ impl<N: Real + AbsDiffEq<Epsilon = N>> AbsDiffEq for DualQuaternion<N> {
     }
 }
 
-impl<N: Real + RelativeEq<Epsilon = N>> RelativeEq for DualQuaternion<N> {
+impl<N: RealField + RelativeEq<Epsilon = N>> RelativeEq for DualQuaternion<N> {
     #[inline]
     fn default_max_relative() -> Self::Epsilon {
         Quaternion::default_max_relative()
@@ -387,28 +387,28 @@ impl<N: Real + RelativeEq<Epsilon = N>> RelativeEq for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> PartialOrd for DualQuaternion<N> {
+impl<N: RealField> PartialOrd for DualQuaternion<N> {
     #[inline]
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         self.re.magnitude().partial_cmp(&other.magnitude())
     }
 }
 
-impl<N: Real> Add for DualQuaternion<N> {
+impl<N: RealField> Add for DualQuaternion<N> {
     type Output = Self;
     #[inline]
     fn add(self, other: Self) -> Self {
         Self::new(self.re + other.re, self.du + other.du)
     }
 }
-impl<N: Real> AddAssign for DualQuaternion<N> {
+impl<N: RealField> AddAssign for DualQuaternion<N> {
     #[inline]
     fn add_assign(&mut self, other: Self) {
         *self = *self + other;
     }
 }
 
-impl<N: Real> Sub for DualQuaternion<N> {
+impl<N: RealField> Sub for DualQuaternion<N> {
     type Output = Self;
     #[inline]
     fn sub(self, other: Self) -> Self {
@@ -416,14 +416,14 @@ impl<N: Real> Sub for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> SubAssign for DualQuaternion<N> {
+impl<N: RealField> SubAssign for DualQuaternion<N> {
     #[inline]
     fn sub_assign(&mut self, other: Self) {
         *self = *self - other;
     }
 }
 
-impl<N: Real> Mul for DualQuaternion<N> {
+impl<N: RealField> Mul for DualQuaternion<N> {
     type Output = Self;
     #[inline]
     fn mul(self, other: Self) -> Self {
@@ -431,14 +431,14 @@ impl<N: Real> Mul for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> MulAssign for DualQuaternion<N> {
+impl<N: RealField> MulAssign for DualQuaternion<N> {
     #[inline]
     fn mul_assign(&mut self, other: Self) {
         *self = *self * other;
     }
 }
 
-impl<N: Real> Div<Self> for DualQuaternion<N> {
+impl<N: RealField> Div<Self> for DualQuaternion<N> {
     type Output = Self;
     #[inline]
     fn div(self, other: Self) -> Self {
@@ -449,14 +449,14 @@ impl<N: Real> Div<Self> for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> DivAssign for DualQuaternion<N> {
+impl<N: RealField> DivAssign for DualQuaternion<N> {
     #[inline]
     fn div_assign(&mut self, other: Self) {
         *self = *self / other
     }
 }
 
-impl<N: Real> Neg for DualQuaternion<N> {
+impl<N: RealField> Neg for DualQuaternion<N> {
     type Output = Self;
 
     #[inline]
@@ -469,7 +469,7 @@ impl<N: Real> Neg for DualQuaternion<N> {
 /// T operations
 ///
 
-impl<N: Real> Add<N> for DualQuaternion<N> {
+impl<N: RealField> Add<N> for DualQuaternion<N> {
     type Output = Self;
 
     #[inline]
@@ -478,14 +478,14 @@ impl<N: Real> Add<N> for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> AddAssign<N> for DualQuaternion<N> {
+impl<N: RealField> AddAssign<N> for DualQuaternion<N> {
     #[inline]
     fn add_assign(&mut self, other: N) {
         *self = *self + other
     }
 }
 
-impl<N: Real> Sub<N> for DualQuaternion<N> {
+impl<N: RealField> Sub<N> for DualQuaternion<N> {
     type Output = Self;
 
     #[inline]
@@ -494,14 +494,14 @@ impl<N: Real> Sub<N> for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> SubAssign<N> for DualQuaternion<N> {
+impl<N: RealField> SubAssign<N> for DualQuaternion<N> {
     #[inline]
     fn sub_assign(&mut self, other: N) {
         *self = *self - other
     }
 }
 
-impl<N: Real> Mul<N> for DualQuaternion<N> {
+impl<N: RealField> Mul<N> for DualQuaternion<N> {
     type Output = Self;
 
     #[inline]
@@ -510,14 +510,14 @@ impl<N: Real> Mul<N> for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> MulAssign<N> for DualQuaternion<N> {
+impl<N: RealField> MulAssign<N> for DualQuaternion<N> {
     #[inline]
     fn mul_assign(&mut self, other: N) {
         *self = *self * other
     }
 }
 
-impl<N: Real> Div<N> for DualQuaternion<N> {
+impl<N: RealField> Div<N> for DualQuaternion<N> {
     type Output = Self;
 
     #[inline]
@@ -526,14 +526,14 @@ impl<N: Real> Div<N> for DualQuaternion<N> {
     }
 }
 
-impl<N: Real> DivAssign<N> for DualQuaternion<N> {
+impl<N: RealField> DivAssign<N> for DualQuaternion<N> {
     #[inline]
     fn div_assign(&mut self, other: N) {
         *self = *self / other
     }
 }
 
-// impl<N: Real> Signed for DualQuaternion<N> {
+// impl<N: RealField> Signed for DualQuaternion<N> {
 //     fn abs(&self)-> Self {
 //         unimplemented!()
 //     }
@@ -556,7 +556,7 @@ impl<N: Real> DivAssign<N> for DualQuaternion<N> {
 // }
 
 
-impl<N: Real> Distribution<DualQuaternion<N>> for Standard
+impl<N: RealField> Distribution<DualQuaternion<N>> for Standard
 where
     Standard: Distribution<N>,
 {
@@ -566,14 +566,14 @@ where
     }
 }
 
-impl<N: Real> std::fmt::Display for DualQuaternion<N> {
+impl<N: RealField> std::fmt::Display for DualQuaternion<N> {
     #[inline]
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "DualQuaternion(re: {}, du: {})", self.re, self.du)
     }
 }
 
-impl<N: Real> std::fmt::Debug for DualQuaternion<N> {
+impl<N: RealField> std::fmt::Debug for DualQuaternion<N> {
     //
     #[inline]
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {

@@ -12,9 +12,9 @@ categories = [ "science" ]
 
 [dependencies]
 num-traits = "*"
-nalgebra = { git = "https://github.com/adamnemecek/nalgebra", branch="dev" }
+nalgebra = { git = "https://github.com/rustsim/nalgebra", branch="master" }
 approx = "*"
 rand = "*"
 
-[patch.crates-io]
-alga = { git = "https://github.com/rustsim/alga", branch = "dev" }
+#[patch.crates-io]
+#alga = { git = "https://github.com/rustsim/alga", branch = "dev" }
