@@ -1,12 +1,12 @@
 # dq
-Possibly most complete and correct implementation of dual quaternions.
+Possibly most complete and correct implementation of dual quaternions in Rust.
 
 Implementation of dual quaternions uses [nalgebra](https://github.com/rustsim/nalgebra) and is heavily inspired by [dual_num](https://github.com/novacrazy/dual_num).
 
 # Notes
 * With `pow`, you can do 
-* you can do ln().exp() but exp().ln() doens't work due to nilpotence.
-* With dual numbers
+* you can do ln().exp() but exp().ln() doens't work due to nilpotence (you lose information).
+* With dual numbers, you can't use powers >=2.0 as that loses information. (???)
 
 # Resources
 
