@@ -6,3 +6,7 @@ extern crate rand;
 
 pub mod dual_quaternion;
 pub mod screw;
+
+pub use crate::{
+    dual_quaternion::*
+};
