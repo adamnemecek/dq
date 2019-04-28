@@ -1,14 +1,15 @@
-use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
-use std::cmp::Ordering;
-pub use std::hash::{Hash, Hasher};
 
-pub use num_traits::{One, Zero, Inv, Pow, Signed, Num};
-pub use nalgebra::{Quaternion, RealField, Vector3, Matrix4};
-
-pub use approx::{RelativeEq, AbsDiffEq};
-
-use rand::distributions::{Distribution, Standard};
-use rand::Rng;
+use {
+    std::{
+        ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg},
+        cmp::Ordering,
+        hash::{Hash, Hasher}
+    },
+    num_traits::{One, Zero, Inv, Pow, Signed, Num},
+    nalgebra::{Quaternion, RealField, Vector3, Matrix4},
+    approx::{RelativeEq, AbsDiffEq},
+    rand::{Rng, distributions::{Distribution, Standard}}
+};
 
 #[repr(C)]
 #[derive(Copy, Clone)]
